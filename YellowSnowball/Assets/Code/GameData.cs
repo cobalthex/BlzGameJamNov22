@@ -6,6 +6,8 @@ public class GameData : ScriptableObject
 {
     public float PlayerSpeedInSec = 1f;
 
+    public Vector2Int[] PlayerStartPositions;
+
     public PlayerControlData[] ControlData;
 
     [Serializable]

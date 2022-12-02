@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   PlayerSpeedInSec: 1
+  PlayerStartPositions:
+  - {x: 4, y: 0}
+  - {x: 3, y: 0}
   ControlData:
   - TurnLeft: 97
     TurnRight: 100

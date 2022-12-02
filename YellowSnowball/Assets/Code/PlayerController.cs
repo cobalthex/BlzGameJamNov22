@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
         m_turnRightKey = data.ControlData[PlayerID].TurnRight;
 
         m_playerSpeedInSec = data.PlayerSpeedInSec;
+        CellPosition = data.PlayerStartPositions[PlayerID];
+
         m_driveway = GameManager.Instance.WorldManager?.GetPlayerDriveway(PlayerID);
 
         // Move player to start
