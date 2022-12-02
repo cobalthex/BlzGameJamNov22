@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   PlayerSpeedInSec: 1
+  ControlData:
+  - TurnLeft: 97
+    TurnRight: 100
+  - TurnLeft: 106
+    TurnRight: 108

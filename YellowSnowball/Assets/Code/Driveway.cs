@@ -13,6 +13,12 @@ public class Driveway : MonoBehaviour
     [SerializeField]
     private GameObject m_cellObject;
 
+    public Vector3 GetPositionOfCell(Vector2Int cellPosition)
+    {
+        return transform.position + new Vector3(cellPosition.x, 0f, cellPosition.y);
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {

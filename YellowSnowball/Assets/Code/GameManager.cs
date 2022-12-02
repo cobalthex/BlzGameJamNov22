@@ -3,8 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
+    public bool SkipMainMenu;
+
+    [HideInInspector]
+    public WorldManager WorldManager;
+
     [SerializeField]
     private GameData m_gameData;
+    public GameData GameData => m_gameData;
 
     public void GoToMainMenu()
     {
@@ -23,6 +29,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        GoToMainMenu();
+
+        if (!SkipMainMenu)
+            GoToMainMenu();
     }
 }
