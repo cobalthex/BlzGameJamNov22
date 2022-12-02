@@ -5,7 +5,8 @@ public enum SceneNameEnum : int
     StartGame,
     LeaderBoard,
     Tutorial,
-    Credits
+    Credits,
+    World_1
 }
 
 public enum PlayerPrefsKeys : int

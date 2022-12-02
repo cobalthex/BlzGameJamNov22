@@ -22,6 +22,7 @@ public class StartGameManager : MonoBehaviour
         PlayerPrefs.SetString(PlayerPrefsKeys.PlayerName.ToString(), nameText);
 
         // Start Game Here
+        GameManager.Instance.GoToGame();
     }
     
     private void Start()
