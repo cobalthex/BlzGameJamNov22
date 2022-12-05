@@ -268,7 +268,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -294,7 +294,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825683412}
   m_LocalRotation: {x: 0.40673664, y: 0, z: 0, w: 0.9135455}
-  m_LocalPosition: {x: 0, y: 20, z: -21}
+  m_LocalPosition: {x: 0, y: 25.19, z: -28.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -315,11 +315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1103566846435100749, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1103566846435100749, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1103566846435100749, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -327,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1103566846435100749, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.296276
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1103566846435100749, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -358,17 +358,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1103566846435100754, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
+      propertyPath: AddBrush
+      value: 
+      objectReference: {fileID: 2800000, guid: eec6070d86ec28343987848afbe0f26e, type: 3}
+    - target: {fileID: 1103566846435100754, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: BrushSize
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1103566846435100754, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: Paintbrush
       value: 
-      objectReference: {fileID: 2800000, guid: 5525692e47669754fa92d09c6c4f8fba, type: 3}
+      objectReference: {fileID: 2800000, guid: 39664a23fe2130d479ec29be4cca34f4, type: 3}
     - target: {fileID: 1103566846435100754, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: Resolution
-      value: 1024
+      value: 128
       objectReference: {fileID: 0}
+    - target: {fileID: 1103566846435100754, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
+      propertyPath: RemoveBrush
+      value: 
+      objectReference: {fileID: 2800000, guid: 39664a23fe2130d479ec29be4cca34f4, type: 3}
     - target: {fileID: 1103566846435100755, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
       propertyPath: m_Name
       value: SnowTerrain
