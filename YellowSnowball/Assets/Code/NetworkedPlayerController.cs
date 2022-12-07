@@ -1,4 +1,6 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
+using System.Linq;
 using UnityEngine;
 
 public class NetworkedPlayerController : MonoBehaviour
@@ -8,6 +10,7 @@ public class NetworkedPlayerController : MonoBehaviour
     public bool CanMove = true;
     public float MoveSpeed;
     private Driveway m_driveway;
+    private bool m_hasBeenClaimed = false;
     public PhotonView PhotonView;
     public Vector2Int CellPosition;
     public Vector2Int Direction => new Vector2Int(Mathf.CeilToInt(transform.forward.normalized.x), Mathf.CeilToInt(transform.forward.normalized.z));
@@ -23,13 +26,6 @@ public class NetworkedPlayerController : MonoBehaviour
         GameData data = NetworkedGameManager.Instance.GameData;
         CellPosition = data.PlayerStartPositions[PlayerID];
         m_driveway = NetworkedGameManager.Instance.WorldManager?.GetPlayerDriveway(PlayerID);
-
-        // Move player to start
-        transform.position = m_driveway.GetPositionOfCell(CellPosition);
-        m_driveway = NetworkedGameManager.Instance.WorldManager?.GetPlayerDriveway(PlayerID);
-
-        // Move player to start
-        transform.position = m_driveway.GetPositionOfCell(CellPosition);
         CanMove = PhotonView.IsMine;
     }
 
@@ -37,17 +33,23 @@ public class NetworkedPlayerController : MonoBehaviour
     void Update()
     {
         HandleControlInput();
+        HandleLaunchSnowInput();
     }
 
-    public void SetOwnership(int playerId)
+    public void SetOwnership(Player player)
     {
-        // TODO: Figure out ownership.
-        PhotonView.TransferOwnership(playerId + 1);
+        PhotonView.TransferOwnership(player);
+        m_hasBeenClaimed = true;
+    }
+
+    public void SendSnowToEnemy(int snowInMeters)
+    {
+        RPCManager.Instance.SendSnowToEnemy(snowInMeters);
     }
 
     private void HandleControlInput()
     {
-        if (!CanMove && !PhotonView.IsMine)
+        if (!CanMove || !PhotonView.IsMine || !m_hasBeenClaimed)
         {
             return;
         }
@@ -56,5 +58,14 @@ public class NetworkedPlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(new Vector3(horizontalInput, 0, verticalInput) * MoveSpeed * Time.deltaTime);
+    }
+
+    private void HandleLaunchSnowInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // TODO: Placeholder
+            SendSnowToEnemy(100);
+        }
     }
 }
