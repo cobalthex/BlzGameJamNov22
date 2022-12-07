@@ -5,7 +5,6 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
 {
     public bool SkipMainMenu;
 
-    [HideInInspector]
     public NetworkedWorldManager WorldManager;
 
     [SerializeField]
