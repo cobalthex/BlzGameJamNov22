@@ -49,10 +49,8 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joining Room");
         m_networkingState = NetworkingState.JoiningRoom;
-        PhotonNetwork.JoinRandomOrCreateRoom(null, expectedMaxPlayers: 2);
+        PhotonNetwork.JoinOrCreateRoom("0", new RoomOptions() { MaxPlayers = 2 }, new TypedLobby("0", LobbyType.Default));
     }
-
-
 
     public override void OnDisconnected(DisconnectCause cause)
     {
