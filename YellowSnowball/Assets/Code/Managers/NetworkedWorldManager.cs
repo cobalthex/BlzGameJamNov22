@@ -31,7 +31,7 @@ public class NetworkedWorldManager : MonoBehaviour
         playerIds.Sort();
         var playerId = playerIds.IndexOf(PhotonNetwork.LocalPlayer.ActorNumber);
         Players[playerId].gameObject.SetActive(true);
-        Players[playerId].SetOwnership(playerId);
+        Players[playerId].SetOwnership(PhotonNetwork.LocalPlayer);
     }
 
     private IEnumerator EnablePlayerWhenReady()

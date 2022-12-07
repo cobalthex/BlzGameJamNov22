@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class NetworkedPlayerController : MonoBehaviour
@@ -40,10 +41,10 @@ public class NetworkedPlayerController : MonoBehaviour
         HandleControlInput();
     }
 
-    public void SetOwnership(int playerId)
+    public void SetOwnership(Player player)
     {
         // TODO: Figure out ownership.
-        PhotonView.TransferOwnership(playerId + 1);
+        PhotonView.TransferOwnership(player);
         m_hasBeenClaimed = true;
     }
 
