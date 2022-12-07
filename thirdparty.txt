@@ -1,1 +1,4 @@
 snow texture (Assets/Snow/snow) - https://2.bp.blogspot.com/-DLC0ZRWPeR8/T2hFnsEqXaI/AAAAAAAABbY/Hlc6a1ECkrk/s1600/Seamless+snow+texture.jpg
+Country House (Assets/ThirdParty/CountryHouse) - https://assetstore.unity.com/packages/3d/low-poly-country-house-66203
+Free Cartoon City (Assets/ThirdParty/FreeCartoonCity) - https://assetstore.unity.com/packages/3d/environments/urban/free-cartoon-world-191838
+Kenney Holiday Kit (Assets/ThirdParty/Kenney_holidaykit_2) - https://www.kenney.nl/assets/holiday-kit
