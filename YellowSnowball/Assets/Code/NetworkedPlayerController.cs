@@ -42,12 +42,12 @@ public class NetworkedPlayerController : MonoBehaviour
     public void SetOwnership(int playerId)
     {
         // TODO: Figure out ownership.
-        PhotonView.TransferOwnership(playerId);
+        PhotonView.TransferOwnership(playerId + 1);
     }
 
     private void HandleControlInput()
     {
-        if (!CanMove)
+        if (!CanMove && !PhotonView.IsMine)
         {
             return;
         }
