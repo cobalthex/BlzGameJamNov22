@@ -36,7 +36,7 @@ public class NetworkedPlayerController : MonoBehaviour
         HandleLaunchSnowInput();
     }
 
-    public void SetOwnership(Player player)
+    public void SetOwnership(Photon.Realtime.Player player)
     {
         PhotonView.TransferOwnership(player);
         m_hasBeenClaimed = true;

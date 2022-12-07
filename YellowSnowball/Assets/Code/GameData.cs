@@ -1,6 +1,21 @@
 using System;
 using UnityEngine;
 
+public enum ShopItemType
+{
+    Nitro,
+    Salt
+}
+
+[Serializable]
+public class ShopItemData
+{
+    public ShopItemType ItemType;
+    public int Cost;
+    public int MaxCount;
+    public Sprite ItemIcon;
+}
+
 [CreateAssetMenu(fileName = "GameData", menuName = "GameData", order = 1)]
 public class GameData : ScriptableObject
 {
@@ -8,24 +23,20 @@ public class GameData : ScriptableObject
 
     public Vector2Int[] PlayerStartPositions;
 
-    public PlayerControlData[] ControlData;
+    public ShopItemData[] ShopItems;
 
-    public int PlayerStartMoney;
-    public ItemData[] ShopItems;
+    public int PlayerStartMoney = 1000;
 
-    [Serializable]
-    public class PlayerControlData
-    {
-        public KeyCode TurnLeft = KeyCode.A;
-        public KeyCode TurnRight = KeyCode.D;
-    }
+    public PlayerKeyboardControls Keys;
 
     [Serializable]
-    public class ItemData
+    public class PlayerKeyboardControls
     {
-        public ShopItemType ItemType;
-        public int Cost;
-        public Sprite ItemIcon;
+        // Player Keyboard Controls
+        public KeyCode PreviousShopItem = KeyCode.Q;
+        public KeyCode NextShopItem = KeyCode.E;
+        public KeyCode BuyShopItem = KeyCode.LeftControl;
+        public KeyCode AccessShop = KeyCode.LeftShift;
     }
 }
 

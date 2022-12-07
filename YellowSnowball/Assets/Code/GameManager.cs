@@ -12,13 +12,11 @@ public class GameManager : SingletonBehaviour<GameManager>
     [HideInInspector]
     public ShopManager ShopManager;
 
+    public PlayerData PlayerData = new PlayerData();
+
     [SerializeField]
     private GameData m_gameData;
     public GameData GameData => m_gameData;
-
-    // Player 
-    public int Money;
-    public List<ShopItemType> m_shopItems;
 
     public void GoToMainMenu()
     {
@@ -40,5 +38,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         if (!IsProxyManager)
             GoToMainMenu();
+
+        PlayerData.Init();
     }
 }
