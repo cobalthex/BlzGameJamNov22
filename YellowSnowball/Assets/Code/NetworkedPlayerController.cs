@@ -8,6 +8,7 @@ public class NetworkedPlayerController : MonoBehaviour
     public bool CanMove = true;
     public float MoveSpeed;
     private Driveway m_driveway;
+    private bool m_hasBeenClaimed = false;
     public PhotonView PhotonView;
     public Vector2Int CellPosition;
     public Vector2Int Direction => new Vector2Int(Mathf.CeilToInt(transform.forward.normalized.x), Mathf.CeilToInt(transform.forward.normalized.z));
@@ -43,11 +44,12 @@ public class NetworkedPlayerController : MonoBehaviour
     {
         // TODO: Figure out ownership.
         PhotonView.TransferOwnership(playerId + 1);
+        m_hasBeenClaimed = true;
     }
 
     private void HandleControlInput()
     {
-        if (!CanMove && !PhotonView.IsMine)
+        if (!CanMove || !PhotonView.IsMine || !m_hasBeenClaimed)
         {
             return;
         }
