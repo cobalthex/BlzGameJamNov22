@@ -10,11 +10,28 @@ public class GameData : ScriptableObject
 
     public PlayerControlData[] ControlData;
 
+    public enum ItemType
+    {
+        Nitro,
+        Salt
+    }
+
+    public int PlayerStartMoney;
+    public ItemData[] ShopItems;
+
     [Serializable]
     public class PlayerControlData
     {
         public KeyCode TurnLeft = KeyCode.A;
         public KeyCode TurnRight = KeyCode.D;
+    }
+
+    [Serializable]
+    public class ItemData
+    {
+        public ItemType ItemType;
+        public int Cost;
+        public Sprite ItemIcon;
     }
 }
 

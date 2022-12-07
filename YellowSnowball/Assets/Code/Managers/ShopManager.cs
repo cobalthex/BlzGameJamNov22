@@ -1,18 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int m_currentItem;
+    private int m_shopItemCount;
+
+    public void NextShopItem()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PreviousShopItem()
     {
-        
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.ShopManager = this;
+
+        var gameData = GameManager.Instance.GameData;
+        m_shopItemCount = gameData.ShopItems.Length;
     }
 }

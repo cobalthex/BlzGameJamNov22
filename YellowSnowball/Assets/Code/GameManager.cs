@@ -3,10 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
-    public bool SkipMainMenu;
+    public bool IsProxyManager;
 
     [HideInInspector]
     public WorldManager WorldManager;
+    
+    [HideInInspector]
+    public ShopManager ShopManager;
 
     [SerializeField]
     private GameData m_gameData;
@@ -30,7 +33,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     {
         DontDestroyOnLoad(gameObject);
 
-        if (!SkipMainMenu)
+        if (!IsProxyManager)
             GoToMainMenu();
     }
 }
