@@ -51,12 +51,12 @@ public class SnowTerrain : MonoBehaviour
                 uvs[i] = new Vector2(c / fResolution, r / fResolution);
 
                 float depth;
-                if (c == 0 || c == Resolution - 1 ||
-                    r == 0 || r == Resolution - 1)
-                {
-                    depth = 0; // do this in a separate loop?
-                }
-                else
+                //if (c < 1 || c >= Resolution - 1 ||
+                //    r < 1 || r >= Resolution - 1)
+                //{
+                //    depth = 0; // do this in a separate loop?
+                //}
+                //else
                 {
                     depth = 1 - Random.Range(0, surfaceVariability);
                 }
@@ -158,7 +158,7 @@ public class SnowTerrain : MonoBehaviour
     public Vector3? WorldToSurface(Vector3 worldPosition)
     {
         var plane = new Plane(transform.up, transform.position);
-        var closest = plane.ClosestPointOnPlane(worldPosition);
+        var closest = plane.ClosestPointOnPlane(worldPosition - transform.position);
 
         var surfaceRelative = new Vector2(closest.x + transform.localScale.x / 2, closest.z + transform.localScale.z / 2);
         if (surfaceRelative.x < 0 || surfaceRelative.y < 0 ||
@@ -238,12 +238,12 @@ public class SnowTerrain : MonoBehaviour
 
         var pixels = pattern.GetPixelData<byte>(0); //todo: rgba
         // pattern sampling/filtering?
-        for (float y = Mathf.Max(1, relativePosition.y);
-            y < Mathf.Min(Resolution - 1, relativePosition.y + ySize);
+        for (float y = Mathf.Max(0, relativePosition.y);
+            y < Mathf.Min(Resolution - 0, relativePosition.y + ySize);
             ++y)
         {
-            for (float x = Mathf.Max(1, relativePosition.x);
-                x < Mathf.Min(Resolution - 1, relativePosition.x + xSize);
+            for (float x = Mathf.Max(0, relativePosition.x);
+                x < Mathf.Min(Resolution - 0, relativePosition.x + xSize);
                 ++x)
             {
                 int patternX = (int)((x - relativePosition.x) * patternXScale);
@@ -333,11 +333,13 @@ public class SnowTerrain : MonoBehaviour
     Vector2? lastRelPos;
     private void Update()
     {
+#if DEBUG
         if (Input.GetKeyDown(KeyCode.R))
         {
             Reset();
             return;
         }
+#endif
 
         var snowBrushInput = System.MathF.Sign(Input.GetAxis("SnowBrush")); // unity mathf does not return 0 -> 0
         if (snowBrushInput == 0)
