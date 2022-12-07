@@ -10,12 +10,6 @@ public class GameData : ScriptableObject
 
     public PlayerControlData[] ControlData;
 
-    public enum ItemType
-    {
-        Nitro,
-        Salt
-    }
-
     public int PlayerStartMoney;
     public ItemData[] ShopItems;
 
@@ -29,7 +23,7 @@ public class GameData : ScriptableObject
     [Serializable]
     public class ItemData
     {
-        public ItemType ItemType;
+        public ShopItemType ItemType;
         public int Cost;
         public Sprite ItemIcon;
     }

@@ -14,3 +14,9 @@ public enum PlayerPrefsKeys : int
     PlayerName
 }
 
+public enum ShopItemType
+{
+    Nitro,
+    Salt
+}
+

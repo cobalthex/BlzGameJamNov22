@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +15,10 @@ public class GameManager : SingletonBehaviour<GameManager>
     [SerializeField]
     private GameData m_gameData;
     public GameData GameData => m_gameData;
+
+    // Player 
+    public int Money;
+    public List<ShopItemType> m_shopItems;
 
     public void GoToMainMenu()
     {

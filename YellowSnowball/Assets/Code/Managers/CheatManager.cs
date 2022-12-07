@@ -10,17 +10,7 @@ public class CheatManager : MonoBehaviour
         m_cheatCanvas.SetActive(!m_cheatCanvas.activeSelf);
     }
 
-    public void ResetShop()
-    {
-
-    }
-
-    public void ToggleItem()
-    {
-
-    }
-    
-    public void BuyItem()
+    public void ResetMoney()
     {
 
     }
