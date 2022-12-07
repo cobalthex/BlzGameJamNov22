@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CheatManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private GameObject m_cheatCanvas;
+
     void Start()
     {
-        
+#if !UNITY_EDITOR
+        // Delete if not UNITY EDITOR
+        DestroyImmediate(gameObject);
+#endif //UNITY_EDITOR
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ToggleCheatsCanvas()
     {
-        
+        m_cheatCanvas.SetActive(!m_cheatCanvas.activeSelf);
     }
 }
