@@ -1,11 +1,7 @@
 using System.Collections.Generic;
-using System.Net.Security;
 using Unity.Collections;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class SnowTerrain : MonoBehaviour
 {
@@ -13,10 +9,12 @@ public class SnowTerrain : MonoBehaviour
 
     public int Resolution = 128; // configurable?
 
+    [Header("Debugging")]
     public Texture2D RemoveBrush;
     public Texture2D AddBrush;
     public float BrushSizeMeters = 10f;
     public float BrushCarveDepthMeters = 0.5f;
+    public Transform TestObj;
 
     // todo: density map
 
@@ -153,6 +151,24 @@ public class SnowTerrain : MonoBehaviour
     }
 
     /// <summary>
+    /// Get the surface position for a point in the world
+    /// </summary>
+    /// <param name="worldPosition">A world relative position</param>
+    /// <returns>The position if in the surface, or null if not. The Z coordinate is the signed height off the base</returns>
+    public Vector3? WorldToSurface(Vector3 worldPosition)
+    {
+        var plane = new Plane(transform.up, transform.position);
+        var closest = plane.ClosestPointOnPlane(worldPosition);
+
+        var surfaceRelative = new Vector2(closest.x + transform.localScale.x / 2, closest.z + transform.localScale.z / 2);
+        if (surfaceRelative.x < 0 || surfaceRelative.y < 0 ||
+            surfaceRelative.x >= transform.localScale.x || surfaceRelative.y >= transform.localScale.z)
+            return null;
+
+        return new Vector3(surfaceRelative.x, surfaceRelative.y, worldPosition.y - closest.y);
+    }
+
+    /// <summary>
     /// Deform the snow with the given pattern applying the specified force
     /// </summary>
     /// <param name="relativePosition">where to place the center of the pattern, from 0 to 1</param>
@@ -281,17 +297,21 @@ public class SnowTerrain : MonoBehaviour
     private void OnGUI()
     {
         string depth = "(Out of bounds)";
-        var surfacePos = ScreenToSurface(Input.mousePosition);
-        if (surfacePos.HasValue)
-            depth = DepthAtPoint(surfacePos.Value).ToString();
+        var mousePos = ScreenToSurface(Input.mousePosition);
+        if (mousePos.HasValue)
+            depth = DepthAtPoint(mousePos.Value).ToString();
+
+        Vector3? surfacePos = TestObj == null ? null : WorldToSurface(TestObj.position);
 
         GUI.color = Color.black;
         GUI.Label(new Rect(21, 21, 200, 20), "Depth: " + depth);
         GUI.Label(new Rect(21, 41, 200, 20), $"Snow remaining: {RemainingSnow}m");
+        GUI.Label(new Rect(20, 61, 200, 20), $"test obj pos: {surfacePos}");
 
         GUI.color = new Color(144, 24, 0);
         GUI.Label(new Rect(20, 20, 200, 20), "Depth: " + depth);
         GUI.Label(new Rect(20, 40, 200, 20), $"Snow remaining: {RemainingSnow}m");
+        GUI.Label(new Rect(20, 60, 200, 20), $"test obj pos: {surfacePos}");
     }
 
     /// <summary>
