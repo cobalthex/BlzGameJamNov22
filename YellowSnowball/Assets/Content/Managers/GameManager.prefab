@@ -44,4 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7168752ae09096e4a9c9590212d2f5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsProxyManager: 0
+  WorldManager: {fileID: 0}
+  ShopManager: {fileID: 0}
+  PlayerData:
+    Money: 0
   m_gameData: {fileID: 11400000, guid: 117579280f0d28e4490107aefbdf0a94, type: 2}
