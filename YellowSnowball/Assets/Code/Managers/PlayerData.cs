@@ -20,7 +20,7 @@ public class PlayerData
 
     public void Init()
     {
-        var gameData = GameManager.Instance.GameData;
+        var gameData = NetworkedGameManager.Instance.GameData;
 
         // Populate inventory slots
         foreach (var itemData in gameData.ShopItems)

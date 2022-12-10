@@ -3,9 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
 {
-    public bool SkipMainMenu;
+    public bool IsProxyManager;
 
+    [HideInInspector]
     public NetworkedWorldManager WorldManager;
+    
+    [HideInInspector]
+    public ShopManager ShopManager;
+
+    public PlayerData PlayerData = new PlayerData();
 
     [SerializeField]
     private GameData m_gameData;
@@ -29,7 +35,9 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
     {
         DontDestroyOnLoad(gameObject);
 
-        if (!SkipMainMenu)
+        if (!IsProxyManager)
             GoToMainMenu();
+
+        PlayerData.Init();
     }
 }
