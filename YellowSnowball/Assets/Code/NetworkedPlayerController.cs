@@ -57,7 +57,9 @@ public class NetworkedPlayerController : MonoBehaviour
         // Set player inputs
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(new Vector3(horizontalInput, 0, verticalInput) * MoveSpeed * Time.deltaTime);
+        var direction = new Vector3(horizontalInput, 0, verticalInput);
+        transform.position += (direction * MoveSpeed * Time.deltaTime);
+        transform.forward = direction.normalized;
     }
 
     private void HandleLaunchSnowInput()
