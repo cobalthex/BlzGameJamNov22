@@ -216,7 +216,7 @@ public class SnowTerrain : MonoBehaviour
     /// <param name="commit">Submit changes to the GPU (use false if calling multiple times in a frame)</param>
     /// <seealso cref="Deform"/>
     // e.g. for a snowblower
-    public void Carve(Vector2 relativePosition, float xSize, Texture2D pattern, float toDepthMeters, bool commit = true)
+    public void Carve(Vector2 relativePosition, float size, Texture2D pattern, float toDepthMeters, bool commit = true)
     {
         if (transform.localScale.y == 0)
             return;
@@ -225,8 +225,8 @@ public class SnowTerrain : MonoBehaviour
 
         // the order of this math can probably be optimized; process is normalize from meters then multiply by the resolution
 
-        xSize = xSize / transform.localScale.x * Resolution;
-        float ySize = xSize * ((float)pattern.height / pattern.width); // factor in transform.localScale.z ?
+        float xSize = size / transform.localScale.x * Resolution;
+        float ySize = size / transform.localScale.z * Resolution;
 
         float patternXScale = pattern.width / xSize;
         float patternYScale = pattern.height / ySize;
