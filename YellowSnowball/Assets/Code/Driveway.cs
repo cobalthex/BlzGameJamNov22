@@ -18,7 +18,6 @@ public class Driveway : MonoBehaviour
         return transform.position + new Vector3(cellPosition.x, 0f, cellPosition.y);
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -30,15 +29,15 @@ public class Driveway : MonoBehaviour
         m_dimensionX = (int)localScale.x;
         m_dimensionZ = (int)localScale.z;
 
-        // Draw proxy grid
-        var drivewayPos = transform.position;
-        for (int x = 0; x < DimensionX; x++)
-        {
-            for (int z = 0; z < DimensionZ; z++)
-            {
-                var cell = Instantiate(m_cellObject, new Vector3(x, 0f, z) + drivewayPos, Quaternion.identity);
-                cell.transform.SetParent(transform);
-            }
-        }
+        //// Draw proxy grid
+        //var drivewayPos = transform.position;
+        //for (int x = 0; x < DimensionX; x++)
+        //{
+        //    for (int z = 0; z < DimensionZ; z++)
+        //    {
+        //        var cell = Instantiate(m_cellObject, new Vector3(x + 0.5f, 0f, z + 0.5f) + drivewayPos, Quaternion.identity);
+        //        cell.transform.SetParent(transform);
+        //    }
+        //}
     }
 }
