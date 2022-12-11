@@ -178,8 +178,7 @@ public class SnowTerrain : MonoBehaviour
     /// Only single channel textures should be used
     /// 0 = remove 1m, 127 = none, 255 = add 1m. values scaled by patternScale
     /// </param>
-    /// <param name="patternScale">How much to scale the pattern by, values in meters</param>
-    /// <param name="pressureMpa">How much force to apply when painting the texture (in newtons), affects how deep the texture is pressed</param>
+    /// <param name="patternScaleMeters">How much to scale the pattern by, values in meters</param>
     /// <param name="commit">Submit changes to the GPU (use false if calling multiple times in a frame)</param>
     /// <remarks>
     /// When creating pattern textures, set the following parameters in the texture import settings:
@@ -192,15 +191,13 @@ public class SnowTerrain : MonoBehaviour
     /// Format = R 8
     /// </remarks>
     // e.g. for foot steps
-    public void Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScale, float pressureMpa, bool commit = true)
+    public void Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScaleMeters, bool commit = true)
     {
-        // snow pattern should push snow up on edges?
+        // todo: to support forces, would need density bitmap
 
-        // todo: depth should be based on localScale.y (real height) then normalized
-
-        // TODO: calculate depth to point at localPosition then carve to that depth
-        float depthMeters = 0.0f;
-        Carve(relativePosition, xSize, pattern, depthMeters, commit);
+        patternScaleMeters /= transform.localScale.y;
+        
+        MutateSnow(relativePosition, xSize, pattern, (curLevel, delta) => curLevel + (delta * patternScaleMeters), commit);
     }
 
     /// <summary>
@@ -218,10 +215,30 @@ public class SnowTerrain : MonoBehaviour
     // e.g. for a snowblower
     public void Carve(Vector2 relativePosition, float size, Texture2D pattern, float toDepthMeters, bool commit = true)
     {
+        toDepthMeters /= transform.localScale.y;
+
+        // todo: support additive textures?
+
+        MutateSnow(relativePosition, xSize, pattern, (curLevel, delta) => Mathf.Min(curLevel, delta + toDepthMeters), commit);
+    }
+
+    public delegate float MutateSnowFn(float currentSnowLevel, float patternValMeters);
+
+    /// <summary>
+    /// Mutate the snow level
+    /// </summary>
+    /// <param name="relativePosition">where to place the center of the pattern, from 0 to localScale.x/y</param>
+    /// <param name="xSize">How large should the texture should be painted, 1 = 1m. y size is sized to keep the coorrect aspect</param>
+    /// <param name="pattern">
+    /// The pattern to paint
+    /// <seealso cref="Deform"/>
+    /// </param>
+    /// <param name="mutator">A function that mutates snow, returning the new height of the snow</param>
+    /// <remarks>B/c this takes in a mutator fn, this can get expensive to run</remarks>
+    public void MutateSnow(Vector2 relativePosition, float xSize, Texture2D pattern, MutateSnowFn mutator, bool commit)
+    {
         if (transform.localScale.y == 0)
             return;
-
-        toDepthMeters /= transform.localScale.y;
 
         // the order of this math can probably be optimized; process is normalize from meters then multiply by the resolution
 
@@ -252,22 +269,13 @@ public class SnowTerrain : MonoBehaviour
                 const byte half = byte.MaxValue / 2;
 
                 byte patternVal = pixels[patternX + patternY * pattern.width];
+                float scaledPatternVal = ((patternVal - half) / (float)patternVal) / transform.localScale.y;
 
                 var vi = (int)x + (int)y * Resolution;
                 var v = m_snowVertices[vi];
                 var prevDepth = v.y;
 
-                if (patternVal < half)
-                {
-                    // pattern scale to scale up/down?
-                    float scaledPatternVal = (patternVal / (float)half) / transform.localScale.y;
-                    v.y = Mathf.Min(prevDepth, scaledPatternVal + toDepthMeters);
-                }
-                else if (patternVal > half)
-                {
-                    float scaledPatternVal = ((patternVal - half) / (float)half) / transform.localScale.y;
-                    v.y = Mathf.Max(prevDepth, scaledPatternVal + toDepthMeters);
-                }
+                v.y = Mathf.Max(0, mutator(prevDepth, scaledPatternVal));
 
                 RemainingSnow += (v.y - prevDepth);
 
@@ -366,7 +374,7 @@ public class SnowTerrain : MonoBehaviour
 
             for (float i = 0; i <= dist; i += (transform.localScale.x / Resolution))
             {
-                Carve(start + dir * i, BrushSizeMeters, brush, BrushCarveDepthMeters, commit: false);
+                Deform(start + dir * i, BrushSizeMeters, brush, 0.1f, commit: false);
             }
             CommitVertices();
          
