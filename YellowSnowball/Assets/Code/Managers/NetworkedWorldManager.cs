@@ -6,6 +6,7 @@ using UnityEngine;
 public class NetworkedWorldManager : MonoBehaviour
 {
     public Driveway[] Driveways;
+    public SnowTerrain[] SnowTerrains;
     public NetworkedPlayerController[] Players;
     public ClientNetworking ClientNetworking;
 
@@ -21,6 +22,11 @@ public class NetworkedWorldManager : MonoBehaviour
     public Driveway GetPlayerDriveway(int playerId)
     {
         return Driveways[playerId];
+    }
+
+    public SnowTerrain GetPlayerSnowTerrain(int playerId)
+    {
+        return SnowTerrains[playerId];
     }
 
     public void EnablePlayer()

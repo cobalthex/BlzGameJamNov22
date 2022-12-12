@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class RPCManager : SingletonBehaviour<RPCManager>
 {
+    public bool CanUpdateSnow;
+    public Texture2D SnowDeformTexture;
+
     private PhotonView m_photonView;
     private void Start()
     {
         m_photonView = GetComponent<PhotonView>();
+        NetworkedGameManager.Instance.RPCManager = this;
     }
-    public void SendSnowToEnemy(int snowInMeters)
+
+    public void SendSnowToEnemy(int playerId, Vector2 relativePosition, float xSize, float patternScale, float pressureMpa)
     {
-        var enemyPlayer = PhotonNetwork.CurrentRoom.Players.First(x => !x.Value.IsLocal).Value;
-        m_photonView.RPC("AddSnowToDriveway", enemyPlayer, new object[] { snowInMeters });
+        if (CanUpdateSnow)
+        {
+            var enemyPlayer = PhotonNetwork.CurrentRoom.Players.First(x => !x.Value.IsLocal).Value;
+            m_photonView.RPC("AddSnowToDriveway", RpcTarget.AllViaServer, new object[] { playerId, relativePosition, xSize, patternScale, pressureMpa });
+        }
     }
 
     [PunRPC]
-    void AddSnowToDriveway(int snowInMeters, PhotonMessageInfo info)
+    void AddSnowToDriveway(int playerId, Vector2 relativePosition, float xSize, float patternScale, float pressureMpa, PhotonMessageInfo info)
     {
-        Debug.Log(string.Format("{0} meters of snow sent from player {1}", snowInMeters, info.Sender.ActorNumber));
+        var playerTerrain = NetworkedGameManager.Instance.WorldManager.GetPlayerSnowTerrain(playerId);
+        playerTerrain.Deform(relativePosition, xSize, SnowDeformTexture, patternScale, pressureMpa);
     }
 }

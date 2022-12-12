@@ -10,6 +10,9 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
     public NetworkedWorldManager WorldManager;
 
     [HideInInspector]
+    public RPCManager RPCManager;
+
+    [HideInInspector]
     public ShopManager ShopManager;
 
     [HideInInspector]

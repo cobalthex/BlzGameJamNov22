@@ -1,6 +1,4 @@
 ﻿using Photon.Pun;
-using Photon.Realtime;
-using System.Linq;
 using UnityEngine;
 
 public class NetworkedPlayerController : MonoBehaviour
@@ -33,18 +31,12 @@ public class NetworkedPlayerController : MonoBehaviour
     void Update()
     {
         HandleControlInput();
-        HandleLaunchSnowInput();
     }
 
     public void SetOwnership(Photon.Realtime.Player player)
     {
         PhotonView.TransferOwnership(player);
         m_hasBeenClaimed = true;
-    }
-
-    public void SendSnowToEnemy(int snowInMeters)
-    {
-        RPCManager.Instance.SendSnowToEnemy(snowInMeters);
     }
 
     private void HandleControlInput()
@@ -65,14 +57,5 @@ public class NetworkedPlayerController : MonoBehaviour
         // Rotation 
         if (direction.magnitude > 0.2f)
             transform.forward = direction.normalized;
-    }
-
-    private void HandleLaunchSnowInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // TODO: Placeholder
-            SendSnowToEnemy(100);
-        }
     }
 }
