@@ -14,17 +14,18 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     }
 
     #region Snow Sending
-    // Send snow
+    // Call this to send snow
     //-----------------------------------------------------------------------
-    public void SendSnow(SnowTerrain terrain, Vector2 relativePosition, float xSize, float patternScaleMeters)
+    public void SendSnow(SnowTerrain terrain, Vector2 relativePosition, float xSize, float patternScaleMeters, float? addSaltExpirationTim)
     {
         if (CanUpdateSnow)
         {
             var playerId = NetworkedGameManager.Instance.WorldManager.GetPlayerByTerrain(terrain);
-            m_photonView.RPC("AddSnowToDriveway", RpcTarget.AllViaServer, new object[] { playerId, relativePosition, xSize, patternScaleMeters });
+            m_photonView.RPC("AddSnowToDriveway", RpcTarget.AllViaServer, new object[] { playerId, relativePosition, xSize, patternScaleMeters, addSaltExpirationTim });
         }
     }
 
+    // Ignore, as this is the receiver of RPC calls.
     [PunRPC]
     void AddSnowToDriveway(int playerId, Vector2 relativePosition, float xSize, float patternScaleMeters, float? addSaltExpirationTime, PhotonMessageInfo info)
     {
@@ -43,6 +44,7 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         m_photonView.RPC("ReceiveGameStart", RpcTarget.AllViaServer);
     }
 
+    // Ignore, as this is the receiver of RPC calls.
     [PunRPC]
     public void ReceiveGameStart(PhotonMessageInfo info)
     {
@@ -59,6 +61,7 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         m_photonView.RPC("ReceiveGameStart", RpcTarget.AllViaServer);
     }
 
+    // Ignore, as this is the receiver of RPC calls.
     [PunRPC]
     public void ReceiveGameEnd(PhotonMessageInfo info)
     {
@@ -77,6 +80,7 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         m_photonView.RPC("ItemPurchased", RpcTarget.AllViaServer, new object[] { playerId, itemType });
     }
 
+    // Ignore, as this is the receiver of RPC calls.
     [PunRPC]
     public void ItemPurchased(int playerId, ShopItemType itemType, PhotonMessageInfo info)
     {
@@ -92,6 +96,7 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         m_photonView.RPC("SnowBlowerMeterValueUpdate", RpcTarget.AllViaServer, new object[] { playerId, snowBlowerValue });
     }
 
+    // Ignore, as this is the receiver of RPC calls.
     [PunRPC]
     public void SnowBlowerMeterValueUpdate(int playerId, float snowBlowerValue, PhotonMessageInfo info)
     {
