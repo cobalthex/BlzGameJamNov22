@@ -19,7 +19,8 @@ public class ShopItemData
 [CreateAssetMenu(fileName = "GameData", menuName = "GameData", order = 1)]
 public class GameData : ScriptableObject
 {
-    public float PlayerSpeedInSec = 1f;
+    public float PlayerSpeedNormal = 5f;
+    public float PlayerSpeedReduced = 2f;
 
     public Vector2Int[] PlayerStartPositions;
 
@@ -37,6 +38,10 @@ public class GameData : ScriptableObject
         public KeyCode NextShopItem = KeyCode.E;
         public KeyCode BuyShopItem = KeyCode.LeftControl;
         public KeyCode AccessShop = KeyCode.LeftShift;
+        public KeyCode ToggleBlowerDoor = KeyCode.Space;
+        public KeyCode Item1Key = KeyCode.Alpha1;
+        public KeyCode Item2Key = KeyCode.Alpha2;
+        public KeyCode Item3Key = KeyCode.Alpha3;
     }
 }
 

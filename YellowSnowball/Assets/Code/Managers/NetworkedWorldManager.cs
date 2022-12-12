@@ -14,6 +14,8 @@ public class NetworkedWorldManager : MonoBehaviour
 
     private bool m_initialized = false;
 
+    public SnowTerrain LocalPlayerTerrain => SnowTerrain[PlayerIndex];
+
     // Start is called before the first frame update
     void Start()
     {

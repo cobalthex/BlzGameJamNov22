@@ -6,11 +6,16 @@ public class NetworkedPlayerController : MonoBehaviour
     // Player data
     public int PlayerID;
     public bool CanMove = true;
-    public float MoveSpeed;
     private Driveway m_driveway;
     private bool m_hasBeenClaimed = false;
     public PhotonView PhotonView;
     public Vector2Int CellPosition;
+
+    private GameData m_gameData;
+    private float MoveSpeed;
+    private float m_lastRemainingSnow;
+    private SnowTerrain m_snowTerrain;
+
     public Vector2Int Direction => new Vector2Int(Mathf.CeilToInt(transform.forward.normalized.x), Mathf.CeilToInt(transform.forward.normalized.z));
 
     public bool PlayerCanMove(Vector2Int toPosition)
@@ -21,14 +26,18 @@ public class NetworkedPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameData data = NetworkedGameManager.Instance.GameData;
-        CellPosition = data.PlayerStartPositions[PlayerID];
+        var worldManager = NetworkedGameManager.Instance.WorldManager;
+        m_snowTerrain = worldManager.LocalPlayerTerrain;
+        m_gameData = NetworkedGameManager.Instance.GameData;
+        CellPosition = m_gameData.PlayerStartPositions[PlayerID];
         m_driveway = NetworkedGameManager.Instance.WorldManager?.GetPlayerDriveway(PlayerID);
+        MoveSpeed = m_gameData.PlayerSpeedNormal;
+        m_lastRemainingSnow = m_snowTerrain.RemainingSnow;
+
         EventManager.AddListener<OnGameStart>((e) =>
         {
             CanMove = PhotonView.IsMine;
         });
-
         EventManager.AddListener<OnRemotePlayerJoined>((e) =>
         {
             if (PlayerID == 0)
@@ -61,6 +70,14 @@ public class NetworkedPlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
         var direction = new Vector3(horizontalInput, 0, verticalInput);
+
+        // Determine speed
+        Debug.Log(m_lastRemainingSnow - m_snowTerrain.RemainingSnow);
+        if (m_lastRemainingSnow - m_snowTerrain.RemainingSnow > 50f)
+            MoveSpeed = m_gameData.PlayerSpeedReduced;
+        else
+            MoveSpeed = m_gameData.PlayerSpeedNormal;
+        m_lastRemainingSnow = m_snowTerrain.RemainingSnow;
 
         // Position
         transform.position += (direction * MoveSpeed * Time.deltaTime);
