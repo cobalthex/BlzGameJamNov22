@@ -49,7 +49,11 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
     {
         Debug.Log("Joining Room");
         m_networkingState = NetworkingState.JoiningRoom;
-        PhotonNetwork.JoinOrCreateRoom("0", new RoomOptions() { MaxPlayers = 2 }, new TypedLobby("0", LobbyType.Default));
+        int roomNumber = 0;
+        while (!PhotonNetwork.JoinOrCreateRoom(roomNumber.ToString(), new RoomOptions() { MaxPlayers = 2 }, new TypedLobby(roomNumber.ToString(), LobbyType.Default)))
+        {
+            roomNumber++;
+        }
     }
 
     public override void OnDisconnected(DisconnectCause cause)
