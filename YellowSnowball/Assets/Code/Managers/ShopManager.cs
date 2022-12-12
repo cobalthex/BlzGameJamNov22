@@ -45,7 +45,7 @@ public class ShopManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(m_gameData.Keys.BuyShopItem))
         {
-            var player = NetworkedGameManager.Instance.PlayerData;
+            var player = NetworkedGameManager.Instance.Player1Data;
             var shopItem = m_gameData.ShopItems[m_currentItem];
             // If player can afford and is not at max count
             if (player.AddItem(shopItem))

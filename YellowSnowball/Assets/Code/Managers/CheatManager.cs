@@ -12,7 +12,7 @@ public class CheatManager : MonoBehaviour
 
     public void ResetMoney()
     {
-        NetworkedGameManager.Instance.PlayerData.Money = NetworkedGameManager.Instance.GameData.PlayerStartMoney;
+        NetworkedGameManager.Instance.Player1Data.Money = NetworkedGameManager.Instance.GameData.PlayerStartMoney;
     }
 
     void Start()

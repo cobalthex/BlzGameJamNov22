@@ -19,7 +19,8 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
     [HideInInspector]
     public UIManager UIManager;
 
-    public PlayerData PlayerData = new PlayerData();
+    public PlayerData Player1Data = new PlayerData();
+    public PlayerData Player2Data = new PlayerData();
 
     [SerializeField]
     private GameData m_gameData;
@@ -111,7 +112,8 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         if (!IsProxyManager)
             GoToMainMenu();
 
-        PlayerData.Init();
+        Player1Data.Init();
+        Player2Data.Init();
 
         GameTimer = StartGameTimerInSec;
     }
