@@ -72,7 +72,6 @@ public class NetworkedPlayerController : MonoBehaviour
         var direction = new Vector3(horizontalInput, 0, verticalInput);
 
         // Determine speed
-        Debug.Log($"Move speed {MoveSpeed} / current {SnowPlow.AverageMetersChanged}");
         if (SnowPlow.AverageMetersChanged > 0.0000f)
             MoveSpeed = m_gameData.PlayerSpeedReduced;
         else
