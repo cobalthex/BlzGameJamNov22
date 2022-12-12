@@ -56,14 +56,29 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
 
     public void JoinRoom()
     {
-        Debug.Log("Joining Room");
-        m_networkingState = NetworkingState.JoiningRoom;
-        int roomNumber = 0;
-        while (!PhotonNetwork.JoinOrCreateRoom(roomNumber.ToString(), m_roomOptions, new TypedLobby(roomNumber.ToString(), LobbyType.Default)))
-        {
-            roomNumber++;
-        }
+        Debug.Log("Attempting to join room");
+        PhotonNetwork.JoinRandomRoom();
     }
+
+    public void CreateRoom()
+    {
+        Debug.Log("Creating room");
+        PhotonNetwork.CreateRoom(null, m_roomOptions);
+    }
+
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("Failed to join room.");
+        CreateRoom();
+    }
+
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        Debug.Log("Failed to join room RANDOM.");
+        CreateRoom();
+    }
+
 
     public override void OnDisconnected(DisconnectCause cause)
     {
