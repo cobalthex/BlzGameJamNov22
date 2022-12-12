@@ -141,7 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlowPattern: {fileID: 2800000, guid: 39664a23fe2130d479ec29be4cca34f4, type: 3}
   PlowSizeMeters: 1
-  AverageMetersChanged: 0
+  JetStream: {fileID: 8087391208534461320}
 --- !u!65 &666008569950514261
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -313,5 +313,10 @@ PrefabInstance:
 --- !u!4 &5520599008514321827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2527472185454054120, guid: b2f04ee97e2103c4786a0ed8ee6f1ff5, type: 3}
+  m_PrefabInstance: {fileID: 8038495439776245579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8087391208534461320 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2283983033623489731, guid: b2f04ee97e2103c4786a0ed8ee6f1ff5, type: 3}
   m_PrefabInstance: {fileID: 8038495439776245579}
   m_PrefabAsset: {fileID: 0}

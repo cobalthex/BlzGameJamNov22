@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SnowPlow : MonoBehaviour
@@ -11,8 +12,12 @@ public class SnowPlow : MonoBehaviour
 
     public float AverageMetersChangedLastPlow { get; private set; }
 
+    private float m_jetEmissionRate;
+
     private void Start()
     {
+        if (JetStream != null)
+            m_jetEmissionRate = JetStream.emission.rateOverTimeMultiplier; // this is the value that's displayed in the 'rate over time' (at least when it's a single value)
     }
 
     void Plow(SnowTerrain snow)
@@ -30,8 +35,8 @@ public class SnowPlow : MonoBehaviour
             if (JetStream != null)
             {
                 var emission = JetStream.emission;
-                // the clamp max ends up being the rate over time value displayed in the inspector
-                emission.rateOverTimeMultiplier = Mathf.Clamp(AverageMetersChangedLastPlow * 10000, 1, 100);
+                // * 10k is a 'good enough' value
+                emission.rateOverTimeMultiplier = Mathf.Clamp(AverageMetersChangedLastPlow * 10000, 1, m_jetEmissionRate);
             }
         }
     }

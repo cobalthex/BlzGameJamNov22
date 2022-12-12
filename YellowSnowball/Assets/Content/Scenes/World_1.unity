@@ -210,18 +210,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8087391208534461320, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}
-      propertyPath: emitterVelocityMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8087391208534461320, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}
-      propertyPath: InheritVelocityModule.m_Curve.scalar
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9202793833793079907, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}
-      propertyPath: JetStream
-      value: 
-      objectReference: {fileID: 1364480537}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}
@@ -324,10 +312,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2230361614628429400, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
-      propertyPath: JetStream
-      value: 
-      objectReference: {fileID: 1824290745}
     - target: {fileID: 7009063549916202613, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
       propertyPath: sceneViewId
       value: 2
@@ -772,11 +756,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 07624df65a858dd41acfba0983ca2a7a, type: 3}
---- !u!198 &1364480537 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8087391208534461320, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}
-  m_PrefabInstance: {fileID: 400525990}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1473796558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1073,11 +1052,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: cf6e1f7ba5b8d74499c891754806dee5, type: 3}
---- !u!198 &1824290745 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1259069858187583411, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
-  m_PrefabInstance: {fileID: 456798864}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1878306870
 PrefabInstance:
   m_ObjectHideFlags: 0
