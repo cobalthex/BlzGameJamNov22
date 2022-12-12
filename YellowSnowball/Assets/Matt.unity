@@ -541,6 +541,65 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 48, y: 0, z: 0}
+--- !u!1001 &2703271336704665405
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.3614254
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.7566667
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5656122
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871778, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2703271336915871779, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
+      propertyPath: m_Name
+      value: Flamethrower
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2a48cc8b4f7c4e64cbf2dbc05a561f1f, type: 3}
 --- !u!1001 &3814091277768061854
 PrefabInstance:
   m_ObjectHideFlags: 0

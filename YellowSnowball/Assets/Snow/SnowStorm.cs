@@ -49,7 +49,7 @@ public class SnowStorm : MonoBehaviour
                 //if (!terrain.MutateSnowNoCommit(new Vector2(relPos.Value.x, relPos.Value.y), (cur) => cur + SnowflakeHeightMeters))
                 //    continue;
 
-                if (terrain.Deform(new Vector2(relPos.Value.x, relPos.Value.y), SnowflakePatternSizeMeters, SnowflakeDeformPattern, SnowflakeHeightMeters, false) == 0)
+                if (terrain.Deform(new Vector2(relPos.Value.x, relPos.Value.y), SnowflakePatternSizeMeters, SnowflakeDeformPattern, SnowflakeHeightMeters, null, false) == 0)
                     continue;
 
                 terrains.Add(terrain);

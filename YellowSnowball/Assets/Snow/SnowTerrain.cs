@@ -61,6 +61,7 @@ public class SnowTerrain : MonoBehaviour
                 uvs[i] = new Vector2(c / fResolution, r / fResolution);
 
                 float depth;
+                // make the edge of the mesh 0
                 //if (c < 1 || c >= Resolution - 1 ||
                 //    r < 1 || r >= Resolution - 1)
                 //{
@@ -73,8 +74,6 @@ public class SnowTerrain : MonoBehaviour
 
                 m_snowVertices[i] = offset + new Vector3(uvs[i].x, depth, uvs[i].y);
                 RemainingSnow += depth;
-
-                // todo: make rim all 0s
             }
         }
 
@@ -91,13 +90,6 @@ public class SnowTerrain : MonoBehaviour
                 tris[ti + 5] = vi + numTris + 2;
             }
         }
-
-        //var pixels = m_snowTexture.GetRawTextureData<Color>();
-        //for (int i = 0; i < pixels.Length; ++i)
-        //{
-        //    pixels[i] = new Color32(initialDepth, initialDensity, 0, 0);
-        //}
-        //m_snowTexture.Apply();
 
         m_snowMesh = new Mesh();
         m_snowMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
@@ -206,7 +198,7 @@ public class SnowTerrain : MonoBehaviour
     /// </remarks>
     /// <returns>The amount of snow deformed in sq meters</returns>
     // e.g. for foot steps
-    public float Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScaleMeters, bool commit = true)
+    public float Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScaleMeters, float? addSaltExpirationTime, bool commit = true)
     {
         // todo: to support forces, would need density bitmap
 
@@ -283,7 +275,7 @@ public class SnowTerrain : MonoBehaviour
 
         float deltaValues = 0;
 
-        var pixels = pattern.GetPixelData<byte>(0); //todo: rgba
+        var pixels = pattern.GetPixelData<byte>(0); //todo: rgba?
         // pattern sampling/filtering?
         for (float y = Mathf.Max(0, relativePosition.y);
             y < Mathf.Min(Resolution - 0, relativePosition.y + ySize);
@@ -434,7 +426,7 @@ public class SnowTerrain : MonoBehaviour
 
             for (float i = 0; i <= dist; i += (transform.localScale.x / Resolution))
             {
-                Deform(start + dir * i, BrushSizeMeters, brush, 0.1f, commit: false);
+                Deform(start + dir * i, BrushSizeMeters, brush, 0.1f, null, commit: false);
             }
             CommitVertices();
          

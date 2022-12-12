@@ -26,10 +26,10 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     }
 
     [PunRPC]
-    void AddSnowToDriveway(int playerId, Vector2 relativePosition, float xSize, float patternScaleMeters, PhotonMessageInfo info)
+    void AddSnowToDriveway(int playerId, Vector2 relativePosition, float xSize, float patternScaleMeters, float? addSaltExpirationTime, PhotonMessageInfo info)
     {
         var playerTerrain = NetworkedGameManager.Instance.WorldManager.GetPlayerSnowTerrain(playerId);
-        playerTerrain.Deform(relativePosition, xSize, SnowDeformTexture, patternScaleMeters);
+        playerTerrain.Deform(relativePosition, xSize, SnowDeformTexture, patternScaleMeters, addSaltExpirationTime);
     }
     //-----------------------------------------------------------------------
     #endregion
