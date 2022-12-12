@@ -5,3 +5,7 @@
 public class OnGameEnd : TEventBase
 {
 }
+
+public class OnWinnerDeclared : TEventBase
+{
+}

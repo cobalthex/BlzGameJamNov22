@@ -76,6 +76,7 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
                 // Determine winner
                 string winnerName = GetWinner();
                 UIManager.ShowGameOver(winnerName);
+                EventManager.Fire(new OnWinnerDeclared());
                 yield break;
             }
         }

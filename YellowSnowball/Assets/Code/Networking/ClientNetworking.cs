@@ -51,6 +51,7 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
     {
         Debug.Log("OnConnectedToMaster() was called by PUN. Client is connected to the server.");
         m_networkingState = NetworkingState.InLobby;
+        EventManager.Fire(new OnConnectedToLobby());
         JoinRoom();
     }
 
@@ -91,26 +92,26 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
     {
         Debug.Log("Room created: " + PhotonNetwork.CurrentRoom.Name);
         m_networkingState = NetworkingState.InRoom;
-        EventManager.Fire<OnLocalCreatedGameEvent>(new OnLocalCreatedGameEvent());
+        EventManager.Fire(new OnLocalCreatedGame());
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Room joined: " + PhotonNetwork.CurrentRoom.Name);
         m_networkingState = NetworkingState.InRoom;
-        EventManager.Fire<OnLocalJoinedGameEvent>(new OnLocalJoinedGameEvent());
+        EventManager.Fire(new OnLocalJoinedGame());
 
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log("Remote player has joined the game.");
-        EventManager.Fire<OnRemotePlayerJoinedEvent>(new OnRemotePlayerJoinedEvent());
+        EventManager.Fire(new OnRemotePlayerJoined());
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log("Remote player has left the game.");
-        EventManager.Fire<OnRemotePlayerLeftEvent>(new OnRemotePlayerLeftEvent());
+        EventManager.Fire(new OnRemotePlayerLeft());
     }
 }

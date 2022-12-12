@@ -1,16 +1,20 @@
-﻿public class OnRemotePlayerJoinedEvent : TEventBase
+﻿public class OnConnectedToLobby : TEventBase
 {
 }
 
-public class OnRemotePlayerLeftEvent : TEventBase
+public class OnRemotePlayerJoined : TEventBase
 {
 }
 
-public class OnLocalJoinedGameEvent : TEventBase
+public class OnRemotePlayerLeft : TEventBase
 {
 }
 
-public class OnLocalCreatedGameEvent : TEventBase
+public class OnLocalJoinedGame : TEventBase
+{
+}
+
+public class OnLocalCreatedGame : TEventBase
 {
 }
 
