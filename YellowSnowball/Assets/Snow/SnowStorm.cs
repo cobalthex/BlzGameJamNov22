@@ -11,7 +11,7 @@ public class SnowStorm : MonoBehaviour
     public Texture2D SnowflakeDeformPattern;
 
     /// <remarks>Ideally this would be the same as <see cref="SnowflakeHeightMeters"/> but b/c theres no texture filtering this needs to be much larger</remarks>
-    public float SnowflakePatternSizeMeters = 0.25f;
+    public float SnowflakePatternSizeMeters = 0.5f;
 
     ParticleSystem m_particleSystem;
     List<ParticleSystem.Particle> m_particlesEntered = new List<ParticleSystem.Particle>();
@@ -22,11 +22,17 @@ public class SnowStorm : MonoBehaviour
         var main = m_particleSystem.main;
         main.simulationSpace = ParticleSystemSimulationSpace.World;
 
+        var triggerMod = m_particleSystem.trigger;
+        triggerMod.enabled = true;
+        triggerMod.colliderQueryMode = ParticleSystemColliderQueryMode.One;
+        triggerMod.enter = ParticleSystemOverlapAction.Callback;
+        triggerMod.inside = ParticleSystemOverlapAction.Kill;
+
         var terrains = FindObjectsOfType<SnowTerrain>();
         for (int i = 0; i < terrains.Length; ++i)
         {
             if (terrains[i].TryGetComponent<Collider>(out var collider))
-                m_particleSystem.trigger.SetCollider(i, collider);
+                triggerMod.SetCollider(i, collider);
         }
     }
 

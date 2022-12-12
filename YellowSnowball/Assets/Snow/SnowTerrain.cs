@@ -15,7 +15,12 @@ public class SnowTerrain : MonoBehaviour
 
     //public Texture2D InitialTexture;
 
-    public int Resolution = 128; // configurable?
+    public int Resolution = 128;
+
+    /// <summary>
+    /// Maximum height of the snow (in meters). Min is 0
+    /// </summary>
+    public float MaxHeightMeters = 5;
 
     [Header("Debugging")]
     public Texture2D RemoveBrush;
@@ -173,6 +178,13 @@ public class SnowTerrain : MonoBehaviour
 
         return new Vector3(surfaceRelative.x, surfaceRelative.y, worldPosition.y - closest.y);
     }
+    public struct SnowMutation
+    {
+        public float totalMetersChanged;
+        public int verticesModified;
+
+        public float AverageMetersChanged => (verticesModified > 0 ? totalMetersChanged / verticesModified : 0);
+    }
 
     /// <summary>
     /// Deform the snow with the given pattern applying the specified force
@@ -198,7 +210,7 @@ public class SnowTerrain : MonoBehaviour
     /// </remarks>
     /// <returns>The amount of snow deformed in sq meters</returns>
     // e.g. for foot steps
-    public float Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScaleMeters, float? addSaltExpirationTime, bool commit = true)
+    public SnowMutation Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScaleMeters, double? addSaltExpirationTime, bool commit = true)
     {
         // todo: to support forces, would need density bitmap
 
@@ -209,7 +221,7 @@ public class SnowTerrain : MonoBehaviour
             return curLevel + (delta * patternScaleMeters);
         }
         
-        return MutateSnow(relativePosition, xSize, pattern, DeformFn, commit);
+        return MutateSnow(relativePosition, xSize, pattern, addSaltExpirationTime, DeformFn, commit);
     }
 
     /// <summary>
@@ -226,7 +238,7 @@ public class SnowTerrain : MonoBehaviour
     /// <seealso cref="Deform"/>
     /// <returns>The amount of snow mutated in sq meters</returns>
     // e.g. for a snowblower
-    public float Carve(Vector2 relativePosition, float size, Texture2D pattern, float toDepthMeters, bool commit = true)
+    public SnowMutation Carve(Vector2 relativePosition, float size, Texture2D pattern, float toDepthMeters, double? addSaltExpirationTime, bool commit = true)
     {
         toDepthMeters /= transform.localScale.y;
 
@@ -237,7 +249,7 @@ public class SnowTerrain : MonoBehaviour
 
         // todo: support additive textures?
 
-        return MutateSnow(relativePosition, size, pattern, CarveFn, commit);
+        return MutateSnow(relativePosition, size, pattern, addSaltExpirationTime, CarveFn, commit);
     }
 
     public delegate float MutateSnowFn(float currentSnowLevel, float patternValMeters);
@@ -254,10 +266,12 @@ public class SnowTerrain : MonoBehaviour
     /// <param name="mutator">A function that mutates snow, returning the new height of the snow</param>
     /// <remarks>B/c this takes in a mutator fn, this can get expensive to run</remarks>
     /// <returns>The amount of snow mutated in sq meters</returns>
-    public float MutateSnow(Vector2 relativePosition, float size, Texture2D pattern, MutateSnowFn mutator, bool commit)
+    public SnowMutation MutateSnow(Vector2 relativePosition, float size, Texture2D pattern, double? addSaltExpirationTime, MutateSnowFn mutator, bool commit)
     {
         if (transform.localScale.y == 0)
-            return 0;
+            return new SnowMutation();
+
+        var now = Time.timeAsDouble;
 
         // the order of this math can probably be optimized; process is normalize from meters then multiply by the resolution
 
@@ -274,6 +288,8 @@ public class SnowTerrain : MonoBehaviour
         RecreateMeshVertices();
 
         float deltaValues = 0;
+
+        int n = 0;
 
         var pixels = pattern.GetPixelData<byte>(0); //todo: rgba?
         // pattern sampling/filtering?
@@ -297,11 +313,19 @@ public class SnowTerrain : MonoBehaviour
                 var v = m_snowVertices[vi];
                 var prevDepth = v.y;
 
-                v.y = Mathf.Max(0, mutator(prevDepth, scaledPatternVal));
+                ref var extraData = ref m_snowVertexExtras[vi];
 
-                deltaValues += (prevDepth - v.y);;
+                var saltExpiration = extraData.saltExpirationTime;
+                if (addSaltExpirationTime.HasValue)
+                    extraData.saltExpirationTime = addSaltExpirationTime.Value;
+
+                v.y = Mathf.Clamp(mutator(prevDepth, scaledPatternVal), 0, MaxHeightMeters);
+                if (saltExpiration > now) // can only remove snow with salt (ideally it would remove salt if plowing below depth, but that's more work)
+                    v.y = Mathf.Min(v.y, prevDepth);
 
                 m_snowVertices[vi] = v;
+                deltaValues += (prevDepth - v.y);
+                ++n;
             }
         }
 
@@ -309,7 +333,7 @@ public class SnowTerrain : MonoBehaviour
         if (commit)
             CommitVertices();
 
-        return (deltaValues * transform.localScale.y);
+        return new SnowMutation { totalMetersChanged = deltaValues * transform.localScale.y, verticesModified = n };
     }
 
     /// <summary>

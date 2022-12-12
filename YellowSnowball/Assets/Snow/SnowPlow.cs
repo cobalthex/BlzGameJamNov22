@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SnowPlow : MonoBehaviour
@@ -19,7 +18,7 @@ public class SnowPlow : MonoBehaviour
         if (maybeSurfacePos != null)
         {
             var sp = maybeSurfacePos.Value;
-            snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, sp.z, true);
+            snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, sp.z, Time.timeAsDouble + 5, true);
         }
     }
 
