@@ -19,7 +19,7 @@ public class SnowPlow : MonoBehaviour
         if (maybeSurfacePos != null)
         {
             var sp = maybeSurfacePos.Value;
-            snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, 0.0f /* TODO: get height at pos? */, true);
+            snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, sp.z, true);
         }
     }
 

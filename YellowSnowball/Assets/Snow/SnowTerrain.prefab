@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1103566846435100754}
   - component: {fileID: 1103566846435100748}
   - component: {fileID: 1103566846435100751}
-  - component: {fileID: -2170189855815408118}
   - component: {fileID: 6126476887467412591}
   m_Layer: 0
   m_Name: SnowTerrain
@@ -30,11 +29,11 @@ Transform:
   m_GameObject: {fileID: 1103566846435100755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.1, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 20}
+  m_LocalScale: {x: 25, y: 1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1103566846435100754
 MonoBehaviour:
@@ -50,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Resolution: 128
   RemoveBrush: {fileID: 0}
-  AddBrush: {fileID: 0}
+  AddBrush: {fileID: 2800000, guid: 547e3416a43924e479008e097cdc6245, type: 3}
   BrushSizeMeters: 10
   BrushCarveDepthMeters: 0.5
   TestObj: {fileID: 0}
@@ -104,24 +103,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103566846435100755}
   m_Mesh: {fileID: 0}
---- !u!114 &-2170189855815408118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1103566846435100755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfb21ce4e0bcac7429f7575577f21a84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Resolution: 128
-  RemoveBrush: {fileID: 0}
-  AddBrush: {fileID: 0}
-  BrushSizeMeters: 10
-  BrushCarveDepthMeters: 0.5
-  TestObj: {fileID: 0}
 --- !u!65 &6126476887467412591
 BoxCollider:
   m_ObjectHideFlags: 0
