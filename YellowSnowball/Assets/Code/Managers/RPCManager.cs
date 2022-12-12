@@ -1,5 +1,4 @@
 ﻿using Photon.Pun;
-using System.Linq;
 using UnityEngine;
 
 public class RPCManager : SingletonBehaviour<RPCManager>
@@ -42,6 +41,17 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     public void ReceiveGameStart()
     {
         EventManager.Fire<OnGameStart>(new OnGameStart());
+    }
+
+    public void EndGame()
+    {
+        m_photonView.RPC("ReceiveGameStart", RpcTarget.AllViaServer);
+    }
+
+    [PunRPC]
+    public void ReceiveGameEnd()
+    {
+        EventManager.Fire<OnGameEnd>(new OnGameEnd());
     }
     #endregion
 }
