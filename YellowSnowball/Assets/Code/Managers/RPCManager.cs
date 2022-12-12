@@ -40,7 +40,9 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     [PunRPC]
     public void ReceiveGameStart(PhotonMessageInfo info)
     {
+        Debug.Log("Received GameStart!");
         EventManager.Fire<OnGameStart>(new OnGameStart());
+        NetworkedGameManager.Instance.StartGame();
     }
 
     public void EndGame()
@@ -51,6 +53,7 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     [PunRPC]
     public void ReceiveGameEnd(PhotonMessageInfo info)
     {
+        Debug.Log("Received End Game!");
         EventManager.Fire<OnGameEnd>(new OnGameEnd());
     }
     #endregion

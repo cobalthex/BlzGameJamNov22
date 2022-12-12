@@ -62,14 +62,30 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
 
     private IEnumerator GameTimerRoutine()
     {
-        while(true)
+        yield return new WaitForSeconds(1f);
+
+        var countDownTimer = 3;
+        // Start countdown:
+        while (countDownTimer >= 0)
         {
+            if (UIManager != null)
+            {
+                UIManager.TimerText.SetText(countDownTimer == 0 ? "GO!" : countDownTimer.ToString());
+            }
             yield return new WaitForSeconds(1f);
+            countDownTimer--;
+        }
+
+        WorldManager.GetLocalPlayer().CanMove = true;
+
+        while (true)
+        {
             GameTimer--;
             if (UIManager != null)
             {
                 UIManager.TimerText.SetText(GameTimer.ToString());
             }
+            yield return new WaitForSeconds(1f);
 
             if (GameTimer <= 0)
             {
@@ -82,6 +98,11 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         }
     }
 
+    public void StartGame()
+    {
+        StartCoroutine(GameTimerRoutine());
+    }
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -92,6 +113,5 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         PlayerData.Init();
 
         GameTimer = StartGameTimerInSec;
-        StartCoroutine(GameTimerRoutine());
     }
 }

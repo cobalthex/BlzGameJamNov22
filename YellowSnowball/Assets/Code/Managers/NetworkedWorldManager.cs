@@ -21,6 +21,11 @@ public class NetworkedWorldManager : MonoBehaviour
         StartCoroutine(EnablePlayerWhenReady());
     }
 
+    public NetworkedPlayerController GetLocalPlayer()
+    {
+        return Players[PlayerIndex];
+    }
+
     public Driveway GetPlayerDriveway(int playerId)
     {
         return Driveways[playerId];

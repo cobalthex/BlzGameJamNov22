@@ -24,7 +24,18 @@ public class NetworkedPlayerController : MonoBehaviour
         GameData data = NetworkedGameManager.Instance.GameData;
         CellPosition = data.PlayerStartPositions[PlayerID];
         m_driveway = NetworkedGameManager.Instance.WorldManager?.GetPlayerDriveway(PlayerID);
-        CanMove = PhotonView.IsMine;
+        EventManager.AddListener<OnGameStart>((e) =>
+        {
+            CanMove = PhotonView.IsMine;
+        });
+
+        EventManager.AddListener<OnRemotePlayerJoined>((e) =>
+        {
+            if (PlayerID == 0)
+            {
+                RPCManager.Instance.StartGame();
+            }
+        });
     }
 
     // Update is called once per frame
