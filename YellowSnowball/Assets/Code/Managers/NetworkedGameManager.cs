@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
@@ -7,15 +8,22 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
 
     [HideInInspector]
     public NetworkedWorldManager WorldManager;
-    
+
     [HideInInspector]
     public ShopManager ShopManager;
+
+    [HideInInspector]
+    public UIManager UIManager;
 
     public PlayerData PlayerData = new PlayerData();
 
     [SerializeField]
     private GameData m_gameData;
     public GameData GameData => m_gameData;
+
+
+    public int StartGameTimerInSec = 100;
+    public int GameTimer = 0;
 
     public void GoToMainMenu()
     {
@@ -31,6 +39,16 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         SceneManager.LoadScene((int)SceneNameEnum.World_1);
     }
 
+    private IEnumerator GameTimerRoutine()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(1f);
+            GameTimer--;
+            UIManager.TimerText.SetText(GameTimer.ToString());
+        }
+    }
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -39,5 +57,8 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
             GoToMainMenu();
 
         PlayerData.Init();
+
+        GameTimer = StartGameTimerInSec;
+        StartCoroutine(GameTimerRoutine());
     }
 }

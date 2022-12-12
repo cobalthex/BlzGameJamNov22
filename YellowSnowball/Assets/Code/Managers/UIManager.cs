@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private GameObject m_gameOverPanel;
 
-    // Update is called once per frame
-    void Update()
+    public TMP_Text TimerText;
+
+    private void Start()
     {
-        
+        NetworkedGameManager.Instance.UIManager = this;
     }
 }
