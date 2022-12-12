@@ -14,6 +14,7 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         NetworkedGameManager.Instance.RPCManager = this;
     }
 
+    #region Snow Sending
     public void SendSnow(SnowTerrain terrain, Vector2 relativePosition, float xSize, float patternScale, float pressureMpa)
     {
         if (CanUpdateSnow)
@@ -29,4 +30,19 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         var playerTerrain = NetworkedGameManager.Instance.WorldManager.GetPlayerSnowTerrain(playerId);
         playerTerrain.Deform(relativePosition, xSize, SnowDeformTexture, patternScale, pressureMpa);
     }
+    #endregion
+
+    #region Game Management
+    public void StartGame()
+    {
+        m_photonView.RPC("ReceiveGameStart", RpcTarget.AllViaServer);
+    }
+
+    [PunRPC]
+    public void ReceiveGameStart()
+    {
+        EventManager.Fire<OnGameStart>(new OnGameStart());
+    }
+    #endregion
 }
+
