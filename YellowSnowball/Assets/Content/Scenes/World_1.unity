@@ -271,6 +271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad28e14e658de7646a6fbb7018b386d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CanUpdateSnow: 0
+  SnowDeformTexture: {fileID: 0}
 --- !u!4 &435847557
 Transform:
   m_ObjectHideFlags: 0
@@ -883,10 +885,6 @@ PrefabInstance:
     - target: {fileID: 1007561231, guid: cf6e1f7ba5b8d74499c891754806dee5, type: 3}
       propertyPath: IsProxyManager
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1007561231, guid: cf6e1f7ba5b8d74499c891754806dee5, type: 3}
-      propertyPath: StartGameTimerInSec
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1676067869353044272, guid: cf6e1f7ba5b8d74499c891754806dee5, type: 3}
       propertyPath: m_RootOrder
