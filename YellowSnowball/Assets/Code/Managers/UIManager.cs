@@ -10,10 +10,7 @@ public class UIManager : MonoBehaviour
     private GameObject m_hudPanel;
 
     [SerializeField]
-    private TMP_Text m_player1MoneyText;
-
-    [SerializeField]
-    private TMP_Text m_player2MoneyText;
+    private TMP_Text[] m_playerMoneyText;
 
     public TMP_Text TimerText;
     public TMP_Text PlayerWinText;
@@ -41,8 +38,9 @@ public class UIManager : MonoBehaviour
         m_gameOverPanel.SetActive(false);
 
         m_gameData = NetworkedGameManager.Instance.GameData;
-        m_player1MoneyText.SetText(m_gameData.PlayerStartMoney.ToString());
-        m_player2MoneyText.SetText(m_gameData.PlayerStartMoney.ToString());
+
+        m_playerMoneyText[0].SetText(NetworkedGameManager.Instance.PlayerData[0].Money.ToString());
+        m_playerMoneyText[1].SetText(NetworkedGameManager.Instance.PlayerData[1].Money.ToString());
     }
 
     private void OnEnable()
@@ -57,6 +55,6 @@ public class UIManager : MonoBehaviour
 
     private void OnItemPurchased(ItemPurchased evt)
     {
-
+        m_playerMoneyText[evt.Player].SetText(NetworkedGameManager.Instance.PlayerData[evt.Player].Money.ToString());
     }
 }

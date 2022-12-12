@@ -466,8 +466,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gameOverPanel: {fileID: 5533506954378415349}
   m_hudPanel: {fileID: 7519616216190457122}
-  m_player1MoneyText: {fileID: 9006862152896643134}
-  m_player2MoneyText: {fileID: 9006862151863733065}
+  m_playerMoneyText:
+  - {fileID: 9006862152896643134}
+  - {fileID: 9006862151863733065}
   TimerText: {fileID: 4684282980501591951}
   PlayerWinText: {fileID: 635618518824537879}
 --- !u!1 &6734931269192495414

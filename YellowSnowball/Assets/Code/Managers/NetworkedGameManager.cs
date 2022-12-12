@@ -19,8 +19,7 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
     [HideInInspector]
     public UIManager UIManager;
 
-    public PlayerData Player1Data = new PlayerData();
-    public PlayerData Player2Data = new PlayerData();
+    public PlayerData[] PlayerData = new PlayerData[2];
 
     [SerializeField]
     private GameData m_gameData;
@@ -46,6 +45,11 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
     // When player exits game over screen
     public void GameOverTeardown()
     {
+    }
+
+    public PlayerData GetLocalPlayerData()
+    {
+        return PlayerData[WorldManager.PlayerIndex];
     }
 
     private string GetWinner()
@@ -112,8 +116,10 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         if (!IsProxyManager)
             GoToMainMenu();
 
-        Player1Data.Init();
-        Player2Data.Init();
+        foreach(var playerData in PlayerData)
+        {
+            playerData.Init();
+        }
 
         GameTimer = StartGameTimerInSec;
     }

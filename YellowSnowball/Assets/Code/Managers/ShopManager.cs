@@ -23,6 +23,28 @@ public class ShopManager : MonoBehaviour
         m_shopItemCount = m_gameData.ShopItems.Length;
     }
 
+    private void OnEnable()
+    {
+        EventManager.AddListener<ItemPurchased>(OnItemPurchased);
+    }
+
+    private void OnDisabled()
+    {
+        EventManager.RemoveListener<ItemPurchased>(OnItemPurchased);
+    }
+
+    private void OnItemPurchased(ItemPurchased evt)
+    {
+        PlayerData playerData = NetworkedGameManager.Instance.PlayerData[evt.Player];
+
+        playerData.Inventory[evt.ShopItemType].Count++;
+        foreach(ShopItemData itemData in m_gameData.ShopItems)
+        {
+            if (itemData.ItemType == evt.ShopItemType)
+            playerData.Money -= itemData.Cost;
+        }
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(m_gameData.Keys.AccessShop))
@@ -45,10 +67,10 @@ public class ShopManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(m_gameData.Keys.BuyShopItem))
         {
-            var player = NetworkedGameManager.Instance.Player1Data;
+            var player = NetworkedGameManager.Instance.GetLocalPlayerData();
             var shopItem = m_gameData.ShopItems[m_currentItem];
             // If player can afford and is not at max count
-            if (player.AddItem(shopItem))
+            if (player.CanPurchaseItem(shopItem))
             {
                 Debug.Log($"Bought Item is {m_gameData.ShopItems[m_currentItem].ItemType}");
                 RPCManager.Instance.PurchaseItem(NetworkedGameManager.Instance.WorldManager.PlayerIndex, shopItem.ItemType);
@@ -56,3 +78,5 @@ public class ShopManager : MonoBehaviour
         }
     }
 }
+
+

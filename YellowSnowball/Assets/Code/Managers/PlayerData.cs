@@ -33,7 +33,7 @@ public class PlayerData
         Money = gameData.PlayerStartMoney;
     }
 
-    public bool AddItem(ShopItemData shopItem)
+    public bool CanPurchaseItem(ShopItemData shopItem)
     {
         if (shopItem.Cost > Money)
         {
@@ -48,9 +48,6 @@ public class PlayerData
             return false;
         }
 
-        Inventory[shopItem.ItemType].Count++;
-        Money -= shopItem.Cost;
-        Debug.Log($"Money left {Money}");
         return true;
     }
     
