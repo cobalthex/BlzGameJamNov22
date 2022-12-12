@@ -74,9 +74,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerID: 0
   CanMove: 1
-  MoveSpeed: 5
   PhotonView: {fileID: 1343787598}
   CellPosition: {x: 0, y: 0}
+  SnowPlow: {fileID: 9202793833793079907}
 --- !u!114 &1343787601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlowPattern: {fileID: 2800000, guid: 39664a23fe2130d479ec29be4cca34f4, type: 3}
   PlowSizeMeters: 1
+  AverageMetersChanged: 0
 --- !u!65 &666008569950514261
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -11,9 +11,10 @@ public class NetworkedPlayerController : MonoBehaviour
     public PhotonView PhotonView;
     public Vector2Int CellPosition;
 
+    public SnowPlow SnowPlow;
+
     private GameData m_gameData;
     private float MoveSpeed;
-    private float m_lastRemainingSnow;
     private SnowTerrain m_snowTerrain;
 
     public Vector2Int Direction => new Vector2Int(Mathf.CeilToInt(transform.forward.normalized.x), Mathf.CeilToInt(transform.forward.normalized.z));
@@ -32,7 +33,6 @@ public class NetworkedPlayerController : MonoBehaviour
         CellPosition = m_gameData.PlayerStartPositions[PlayerID];
         m_driveway = NetworkedGameManager.Instance.WorldManager?.GetPlayerDriveway(PlayerID);
         MoveSpeed = m_gameData.PlayerSpeedNormal;
-        m_lastRemainingSnow = m_snowTerrain.RemainingSnow;
 
         EventManager.AddListener<OnGameStart>((e) =>
         {
@@ -72,12 +72,11 @@ public class NetworkedPlayerController : MonoBehaviour
         var direction = new Vector3(horizontalInput, 0, verticalInput);
 
         // Determine speed
-        Debug.Log(m_lastRemainingSnow - m_snowTerrain.RemainingSnow);
-        if (m_lastRemainingSnow - m_snowTerrain.RemainingSnow > 50f)
+        Debug.Log($"Move speed {MoveSpeed} / current {SnowPlow.AverageMetersChanged}");
+        if (SnowPlow.AverageMetersChanged > 0.0000f)
             MoveSpeed = m_gameData.PlayerSpeedReduced;
         else
             MoveSpeed = m_gameData.PlayerSpeedNormal;
-        m_lastRemainingSnow = m_snowTerrain.RemainingSnow;
 
         // Position
         transform.position += (direction * MoveSpeed * Time.deltaTime);

@@ -4,6 +4,7 @@ public class SnowPlow : MonoBehaviour
 {
     public Texture2D PlowPattern;
     public float PlowSizeMeters;
+    public float AverageMetersChanged;
 
     Vector3 lastPosition;
 
@@ -18,7 +19,8 @@ public class SnowPlow : MonoBehaviour
         if (maybeSurfacePos != null)
         {
             var sp = maybeSurfacePos.Value;
-            snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, sp.z, Time.timeAsDouble + 5, true);
+            var carvedData = snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, sp.z, Time.timeAsDouble + 5, true);
+            AverageMetersChanged = carvedData.AverageMetersChanged;
         }
     }
 
