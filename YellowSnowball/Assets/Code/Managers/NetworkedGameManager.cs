@@ -54,10 +54,10 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
             return $"Player {(WorldManager.PlayerIndex + 1).ToString()}";
 
         // If two players determine who won
-        if (WorldManager.SnowTerrain[0].RemainingSnow > WorldManager.SnowTerrain[1].RemainingSnow)
+        if (WorldManager.SnowTerrain[0].RemainingSnow < WorldManager.SnowTerrain[1].RemainingSnow)
             return $"Player 1";
 
-        return $"Player 1";
+        return $"Player 2";
     }
 
     private IEnumerator GameTimerRoutine()
