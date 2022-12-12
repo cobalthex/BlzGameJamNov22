@@ -38,7 +38,7 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     }
 
     [PunRPC]
-    public void ReceiveGameStart()
+    public void ReceiveGameStart(PhotonMessageInfo info)
     {
         EventManager.Fire<OnGameStart>(new OnGameStart());
     }
@@ -49,10 +49,29 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     }
 
     [PunRPC]
-    public void ReceiveGameEnd()
+    public void ReceiveGameEnd(PhotonMessageInfo info)
     {
         EventManager.Fire<OnGameEnd>(new OnGameEnd());
     }
+    #endregion
+
+    #region Example RPC
+    ///// <summary>
+    ///// Method that triggers the RPC (called from a client)
+    ///// </summary>
+    //public void SomeMethodName(string parameterOne, int parameterTwo)
+    //{
+    //    m_photonView.RPC("RpcMethodName", RpcTarget.AllViaServer, new object[] { parameterOne, parameterTwo });
+    //}
+
+    ///// <summary>
+    ///// RPC Receiver. The name here much match the string in the above call.
+    ///// </summary>
+    //[PunRPC]
+    //public void RpcMethodName(PhotonMessageInfo info)
+    //{
+    //    // do work
+    //}
     #endregion
 }
 
