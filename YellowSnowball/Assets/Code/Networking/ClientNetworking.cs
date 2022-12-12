@@ -75,7 +75,7 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("Failed to join room RANDOM.");
+        Debug.Log("Failed to join random room.");
         CreateRoom();
     }
 
