@@ -68,14 +68,15 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         // Start countdown:
         while (countDownTimer >= 0)
         {
+            yield return new WaitForSeconds(1f);
             if (UIManager != null)
             {
                 UIManager.TimerText.SetText(countDownTimer == 0 ? "GO!" : countDownTimer.ToString());
             }
-            yield return new WaitForSeconds(1f);
             countDownTimer--;
         }
 
+        RPCManager.Instance.CanUpdateSnow = true;
         WorldManager.GetLocalPlayer().CanMove = true;
 
         while (true)
