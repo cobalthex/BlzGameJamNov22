@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class SnowTerrain : MonoBehaviour
 {
+    /// <summary>
+    /// Extra data for each snow vertex (does not include height, which is encoded into the mesh vertices)
+    /// </summary>
+    public struct SnowVertexData
+    {
+        public double saltExpirationTime;
+    }
+
     //public Texture2D InitialTexture;
 
     public int Resolution = 128; // configurable?
@@ -20,6 +28,7 @@ public class SnowTerrain : MonoBehaviour
 
     Mesh m_snowMesh;
     NativeArray<Vector3> m_snowVertices;
+    SnowVertexData[] m_snowVertexExtras;
 
     public float RemainingSnow { get; private set; }
 
@@ -36,6 +45,7 @@ public class SnowTerrain : MonoBehaviour
 
         m_snowVertices = new NativeArray<Vector3>(Resolution * Resolution, Allocator.Persistent);
         var uvs = new Vector2[Resolution * Resolution];
+        m_snowVertexExtras = new SnowVertexData[Resolution * Resolution];
 
         // todo: trianglular grid?
 
@@ -104,7 +114,10 @@ public class SnowTerrain : MonoBehaviour
         filter.mesh = m_snowMesh;
     }
 
-    void CommitVertices()
+    /// <summary>
+    /// Submit changes to the GPU
+    /// </summary>
+    public void CommitVertices()
     {
         m_snowMesh.SetVertices(m_snowVertices);
         m_snowMesh.UploadMeshData(false);
@@ -115,7 +128,7 @@ public class SnowTerrain : MonoBehaviour
     /// </summary>
     /// <param name="localPosition">The local position, in meters</param>
     /// <returns>The depth, in meters, from the base at the specified position, or null if the position is out of bounds</returns>
-    public float? DepthAtPoint(Vector2 localPosition)
+    public (float, SnowVertexData)? SnowAtPoint(Vector2 localPosition)
     {
         localPosition.x = localPosition.x / transform.localScale.x * Resolution;
         localPosition.y = localPosition.y / transform.localScale.z * Resolution;
@@ -123,7 +136,8 @@ public class SnowTerrain : MonoBehaviour
             return null;
 
         RecreateMeshVertices();
-        return m_snowVertices[(int)localPosition.x + (int)localPosition.y * Resolution].y * transform.localScale.y;
+        int index = (int)localPosition.x + (int)localPosition.y * Resolution;
+        return (m_snowVertices[index].y * transform.localScale.y, m_snowVertexExtras[index]);
     }
 
     /// <summary>
@@ -190,14 +204,20 @@ public class SnowTerrain : MonoBehaviour
     /// Generate Mipmaps = false
     /// Format = R 8
     /// </remarks>
+    /// <returns>The amount of snow deformed in sq meters</returns>
     // e.g. for foot steps
-    public void Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScaleMeters, bool commit = true)
+    public float Deform(Vector2 relativePosition, float xSize, Texture2D pattern, float patternScaleMeters, bool commit = true)
     {
         // todo: to support forces, would need density bitmap
 
         patternScaleMeters /= transform.localScale.y;
+
+        float DeformFn(float curLevel, float delta)
+        {
+            return curLevel + (delta * patternScaleMeters);
+        }
         
-        MutateSnow(relativePosition, xSize, pattern, (curLevel, delta) => curLevel + (delta * patternScaleMeters), commit);
+        return MutateSnow(relativePosition, xSize, pattern, DeformFn, commit);
     }
 
     /// <summary>
@@ -212,14 +232,20 @@ public class SnowTerrain : MonoBehaviour
     /// <param name="toDepthMeters">The maximum depth to carve to (meters up from the bottom)</param>
     /// <param name="commit">Submit changes to the GPU (use false if calling multiple times in a frame)</param>
     /// <seealso cref="Deform"/>
+    /// <returns>The amount of snow mutated in sq meters</returns>
     // e.g. for a snowblower
-    public void Carve(Vector2 relativePosition, float size, Texture2D pattern, float toDepthMeters, bool commit = true)
+    public float Carve(Vector2 relativePosition, float size, Texture2D pattern, float toDepthMeters, bool commit = true)
     {
         toDepthMeters /= transform.localScale.y;
 
+        float CarveFn(float curLevel, float delta)
+        {
+            return Mathf.Max(Mathf.Min(toDepthMeters, curLevel), curLevel + delta);
+        }
+
         // todo: support additive textures?
 
-        MutateSnow(relativePosition, xSize, pattern, (curLevel, delta) => Mathf.Min(curLevel, delta + toDepthMeters), commit);
+        return MutateSnow(relativePosition, size, pattern, CarveFn, commit);
     }
 
     public delegate float MutateSnowFn(float currentSnowLevel, float patternValMeters);
@@ -235,14 +261,16 @@ public class SnowTerrain : MonoBehaviour
     /// </param>
     /// <param name="mutator">A function that mutates snow, returning the new height of the snow</param>
     /// <remarks>B/c this takes in a mutator fn, this can get expensive to run</remarks>
-    public void MutateSnow(Vector2 relativePosition, float xSize, Texture2D pattern, MutateSnowFn mutator, bool commit)
+    /// <returns>The amount of snow mutated in sq meters</returns>
+    public float MutateSnow(Vector2 relativePosition, float size, Texture2D pattern, MutateSnowFn mutator, bool commit)
     {
         if (transform.localScale.y == 0)
-            return;
+            return 0;
 
         // the order of this math can probably be optimized; process is normalize from meters then multiply by the resolution
 
         float xSize = size / transform.localScale.x * Resolution;
+
         float ySize = size / transform.localScale.z * Resolution;
 
         float patternXScale = pattern.width / xSize;
@@ -252,6 +280,8 @@ public class SnowTerrain : MonoBehaviour
         relativePosition.y = (relativePosition.y / transform.localScale.z) * Resolution - (ySize / 2);
 
         RecreateMeshVertices();
+
+        float deltaValues = 0;
 
         var pixels = pattern.GetPixelData<byte>(0); //todo: rgba
         // pattern sampling/filtering?
@@ -277,14 +307,44 @@ public class SnowTerrain : MonoBehaviour
 
                 v.y = Mathf.Max(0, mutator(prevDepth, scaledPatternVal));
 
-                RemainingSnow += (v.y - prevDepth);
+                deltaValues += (prevDepth - v.y);;
 
                 m_snowVertices[vi] = v;
             }
         }
 
+        RemainingSnow -= deltaValues;
         if (commit)
             CommitVertices();
+
+        return (deltaValues * transform.localScale.y);
+    }
+
+    /// <summary>
+    /// Mutate a single point of the snow (getting the closest vertex). <see cref="CommitVertices"/> must be called manually
+    /// </summary>
+    /// <param name="relativePosition">Where in the snow mesh (meters)</param>
+    /// <param name="mutator">How to change the snow (takes in the current snow level)</param>
+    /// <returns>True if the snow was mutated</returns>
+    public bool MutateSnowNoCommit(Vector2 relativePosition, System.Func<float, float> mutator)
+    {
+        // average value to nearby vertices?
+
+        relativePosition.x = Mathf.Round((relativePosition.x / transform.localScale.x) * Resolution);
+        relativePosition.y = Mathf.Round((relativePosition.y / transform.localScale.z) * Resolution);
+
+        RecreateMeshVertices();
+
+        if (relativePosition.x < 0 || relativePosition.y < 0 || relativePosition.x >= Resolution || relativePosition.y >= Resolution)
+            return false;
+
+        var vi = (int)relativePosition.x + (int)relativePosition.y * Resolution;
+        var v = m_snowVertices[vi];
+        var lastPos = v.y;
+        v.y = Mathf.Max(0, mutator(lastPos));
+        m_snowVertices[vi] = v;
+
+        return lastPos != v.y;
     }
 
     void Start()
@@ -307,7 +367,7 @@ public class SnowTerrain : MonoBehaviour
         string depth = "(Out of bounds)";
         var mousePos = ScreenToSurface(Input.mousePosition);
         if (mousePos.HasValue)
-            depth = DepthAtPoint(mousePos.Value).ToString();
+            depth = SnowAtPoint(mousePos.Value).ToString();
 
         Vector3? surfacePos = TestObj == null ? null : WorldToSurface(TestObj.position);
 
