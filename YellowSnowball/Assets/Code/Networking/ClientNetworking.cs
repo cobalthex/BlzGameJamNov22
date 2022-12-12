@@ -17,6 +17,7 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
     private bool m_attemptingConnection = false;
     private bool m_connectedToServer = false;
     private NetworkingState m_networkingState = NetworkingState.NotConnected;
+    private static RoomOptions m_roomOptions = new RoomOptions() { MaxPlayers = 2 };
 
     public bool IsConnectedToRoom()
     {
@@ -30,6 +31,14 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
         {
             InitializeClient();
         }
+    }
+
+    public override void OnDisable()
+    {
+        PhotonNetwork.Disconnect();
+        m_networkingState = NetworkingState.NotConnected;
+        Debug.Log("Disconnected.");
+        base.OnDisable();
     }
 
     public void InitializeClient()
@@ -50,7 +59,7 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
         Debug.Log("Joining Room");
         m_networkingState = NetworkingState.JoiningRoom;
         int roomNumber = 0;
-        while (!PhotonNetwork.JoinOrCreateRoom(roomNumber.ToString(), new RoomOptions() { MaxPlayers = 2 }, new TypedLobby(roomNumber.ToString(), LobbyType.Default)))
+        while (!PhotonNetwork.JoinOrCreateRoom(roomNumber.ToString(), m_roomOptions, new TypedLobby(roomNumber.ToString(), LobbyType.Default)))
         {
             roomNumber++;
         }
