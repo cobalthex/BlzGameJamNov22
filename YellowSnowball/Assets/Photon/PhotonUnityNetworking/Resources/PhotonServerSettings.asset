@@ -40,10 +40,7 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-<<<<<<< Updated upstream
   - ReceiveGameEnd
-=======
->>>>>>> Stashed changes
   - ReceiveGameStart
   DisableAutoOpenWizard: 1
   ShowSettings: 1
