@@ -66,7 +66,10 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         {
             yield return new WaitForSeconds(1f);
             GameTimer--;
-            UIManager.TimerText.SetText(GameTimer.ToString());
+            if (UIManager != null)
+            {
+                UIManager.TimerText.SetText(GameTimer.ToString());
+            }
 
             if (GameTimer <= 0)
             {
