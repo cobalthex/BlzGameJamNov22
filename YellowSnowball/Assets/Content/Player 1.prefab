@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: df16e32f6b2a60547acde8768ef3ebea, type: 2}
+    - target: {fileID: 6675288560092171704, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675288560092171704, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ed4da2d3ef247a04984c5c643097bc2b, type: 3}

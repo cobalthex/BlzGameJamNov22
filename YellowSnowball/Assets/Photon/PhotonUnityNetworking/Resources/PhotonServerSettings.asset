@@ -42,6 +42,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - ReceiveGameEnd
   - ReceiveGameStart
+  - ItemPurchased
+  - SnowBlowerMeterValueUpdate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

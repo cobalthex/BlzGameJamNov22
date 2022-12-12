@@ -4,13 +4,15 @@ public class SnowPlow : MonoBehaviour
 {
     public Texture2D PlowPattern;
     public float PlowSizeMeters;
-    public float AverageMetersChanged;
 
-    Vector3 lastPosition;
+    public double? SaltDurationSeconds;
+
+    public ParticleSystem JetStream;
+
+    public float AverageMetersChangedLastPlow { get; private set; }
 
     private void Start()
     {
-        lastPosition = transform.position;
     }
 
     void Plow(SnowTerrain snow)
@@ -19,8 +21,18 @@ public class SnowPlow : MonoBehaviour
         if (maybeSurfacePos != null)
         {
             var sp = maybeSurfacePos.Value;
-            var carvedData = snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, sp.z, Time.timeAsDouble + 5, true);
-            AverageMetersChanged = carvedData.AverageMetersChanged;
+
+            double? saltExpirationTime = SaltDurationSeconds.HasValue ? Time.timeAsDouble + SaltDurationSeconds.Value : null;
+
+            var carvedData = snow.Carve(new Vector2(sp.x, sp.y), PlowSizeMeters, PlowPattern, sp.z, saltExpirationTime, true);
+            AverageMetersChangedLastPlow = carvedData.AverageMetersChanged;
+
+            if (JetStream != null)
+            {
+                var emission = JetStream.emission;
+                // the clamp max ends up being the rate over time value displayed in the inspector
+                emission.rateOverTimeMultiplier = Mathf.Clamp(AverageMetersChangedLastPlow * 10000, 1, 100);
+            }
         }
     }
 
