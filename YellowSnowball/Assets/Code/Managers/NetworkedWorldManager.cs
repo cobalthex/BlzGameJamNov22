@@ -31,6 +31,16 @@ public class NetworkedWorldManager : MonoBehaviour
         return SnowTerrains[playerId];
     }
 
+    public int GetPlayerByTerrain(SnowTerrain terrain)
+    {
+        if (SnowTerrains[0].GetInstanceID() == terrain.GetInstanceID())
+        {
+            return 0;
+        }
+
+        return 1;
+    }
+
     public void EnablePlayer()
     {
         Debug.Log("Enabling Player");

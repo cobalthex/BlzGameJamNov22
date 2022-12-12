@@ -14,11 +14,11 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         NetworkedGameManager.Instance.RPCManager = this;
     }
 
-    public void SendSnowToEnemy(int playerId, Vector2 relativePosition, float xSize, float patternScale, float pressureMpa)
+    public void SendSnow(SnowTerrain terrain, Vector2 relativePosition, float xSize, float patternScale, float pressureMpa)
     {
         if (CanUpdateSnow)
         {
-            var enemyPlayer = PhotonNetwork.CurrentRoom.Players.First(x => !x.Value.IsLocal).Value;
+            var playerId = NetworkedGameManager.Instance.WorldManager.GetPlayerByTerrain(terrain);
             m_photonView.RPC("AddSnowToDriveway", RpcTarget.AllViaServer, new object[] { playerId, relativePosition, xSize, patternScale, pressureMpa });
         }
     }

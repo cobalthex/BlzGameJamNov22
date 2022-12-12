@@ -98,4 +98,9 @@ public class ClientNetworking : MonoBehaviourPunCallbacks
         Debug.Log("Room joined: " + PhotonNetwork.CurrentRoom.Name);
         m_networkingState = NetworkingState.InRoom;
     }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        EventManager.Fire<OnPlayerJoinedEvent>(new OnPlayerJoinedEvent());
+    }
 }
