@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +25,6 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
     private GameData m_gameData;
     public GameData GameData => m_gameData;
 
-
     public int StartGameTimerInSec = 100;
     public int GameTimer = 0;
 
@@ -42,6 +42,24 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
         SceneManager.LoadScene((int)SceneNameEnum.World_1);
     }
 
+    // When player exits game over screen
+    public void GameOverTeardown()
+    {
+    }
+
+    private string GetWinner()
+    {
+        // If only one player, return the local player
+        if (WorldManager.Players.Length == 1)
+            return $"Player {(WorldManager.PlayerIndex + 1).ToString()}";
+
+        // If two players determine who won
+        if (WorldManager.SnowTerrain[0].RemainingSnow > WorldManager.SnowTerrain[1].RemainingSnow)
+            return $"Player 1";
+
+        return $"Player 1";
+    }
+
     private IEnumerator GameTimerRoutine()
     {
         while(true)
@@ -49,6 +67,14 @@ public class NetworkedGameManager : SingletonBehaviour<NetworkedGameManager>
             yield return new WaitForSeconds(1f);
             GameTimer--;
             UIManager.TimerText.SetText(GameTimer.ToString());
+
+            if (GameTimer <= 0)
+            {
+                // Determine winner
+                string winnerName = GetWinner();
+                UIManager.ShowGameOver(winnerName);
+                yield break;
+            }
         }
     }
 

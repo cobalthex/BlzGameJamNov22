@@ -8,7 +8,9 @@ public class NetworkedWorldManager : MonoBehaviour
     public Driveway[] Driveways;
     public SnowTerrain[] SnowTerrains;
     public NetworkedPlayerController[] Players;
+    public SnowTerrain[] SnowTerrain;
     public ClientNetworking ClientNetworking;
+    public int PlayerIndex;
 
     private bool m_initialized = false;
 
@@ -35,9 +37,9 @@ public class NetworkedWorldManager : MonoBehaviour
         // Base ownership of player by order of their ids in the room
         var playerIds = PhotonNetwork.CurrentRoom.Players.Keys.ToList();
         playerIds.Sort();
-        var playerId = playerIds.IndexOf(PhotonNetwork.LocalPlayer.ActorNumber);
-        Players[playerId].gameObject.SetActive(true);
-        Players[playerId].SetOwnership(PhotonNetwork.LocalPlayer);
+        PlayerIndex = playerIds.IndexOf(PhotonNetwork.LocalPlayer.ActorNumber);
+        Players[PlayerIndex].gameObject.SetActive(true);
+        Players[PlayerIndex].SetOwnership(PhotonNetwork.LocalPlayer);
     }
 
     private IEnumerator EnablePlayerWhenReady()
