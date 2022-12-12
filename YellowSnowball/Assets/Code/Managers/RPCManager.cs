@@ -14,6 +14,8 @@ public class RPCManager : SingletonBehaviour<RPCManager>
     }
 
     #region Snow Sending
+    // Send snow
+    //-----------------------------------------------------------------------
     public void SendSnow(SnowTerrain terrain, Vector2 relativePosition, float xSize, float patternScaleMeters)
     {
         if (CanUpdateSnow)
@@ -29,9 +31,13 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         var playerTerrain = NetworkedGameManager.Instance.WorldManager.GetPlayerSnowTerrain(playerId);
         playerTerrain.Deform(relativePosition, xSize, SnowDeformTexture, patternScaleMeters);
     }
+    //-----------------------------------------------------------------------
     #endregion
 
     #region Game Management
+
+    // Start Game
+    //-----------------------------------------------------------------------
     public void StartGame()
     {
         m_photonView.RPC("ReceiveGameStart", RpcTarget.AllViaServer);
@@ -44,7 +50,10 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         EventManager.Fire<OnGameStart>(new OnGameStart());
         NetworkedGameManager.Instance.StartGame();
     }
+    //-----------------------------------------------------------------------
 
+    // End Game
+    //-----------------------------------------------------------------------
     public void EndGame()
     {
         m_photonView.RPC("ReceiveGameStart", RpcTarget.AllViaServer);
@@ -56,6 +65,40 @@ public class RPCManager : SingletonBehaviour<RPCManager>
         Debug.Log("Received End Game!");
         EventManager.Fire<OnGameEnd>(new OnGameEnd());
     }
+    //-----------------------------------------------------------------------
+    #endregion
+
+    #region Player Events
+
+    // Purchase items
+    //-----------------------------------------------------------------------
+    public void PurchaseItem(int playerId, ShopItemType itemType)
+    {
+        m_photonView.RPC("ItemPurchased", RpcTarget.AllViaServer, new object[] { playerId, itemType });
+    }
+
+    [PunRPC]
+    public void ItemPurchased(int playerId, ShopItemType itemType, PhotonMessageInfo info)
+    {
+        Debug.Log("Received item purchase update.");
+        EventManager.Fire(new ItemPurchased(playerId, itemType));
+    }
+    //-----------------------------------------------------------------------
+
+    // Snow blower meter
+    //-----------------------------------------------------------------------
+    public void SendSnowBlowerMeterValue(int playerId, float snowBlowerValue)
+    {
+        m_photonView.RPC("SnowBlowerMeterValueUpdate", RpcTarget.AllViaServer, new object[] { playerId, snowBlowerValue });
+    }
+
+    [PunRPC]
+    public void SnowBlowerMeterValueUpdate(int playerId, float snowBlowerValue, PhotonMessageInfo info)
+    {
+        Debug.Log("Received snow blower value.");
+        EventManager.Fire(new SnowBlowerValueUpdate(playerId, snowBlowerValue));
+    }
+    //-----------------------------------------------------------------------
     #endregion
 
     #region Example RPC
