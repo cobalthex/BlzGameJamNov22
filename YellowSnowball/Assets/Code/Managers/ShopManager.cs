@@ -49,7 +49,10 @@ public class ShopManager : MonoBehaviour
             var shopItem = m_gameData.ShopItems[m_currentItem];
             // If player can afford and is not at max count
             if (player.AddItem(shopItem))
+            {
                 Debug.Log($"Bought Item is {m_gameData.ShopItems[m_currentItem].ItemType}");
+                RPCManager.Instance.PurchaseItem(NetworkedGameManager.Instance.WorldManager.PlayerIndex, shopItem.ItemType);
+            }
         }
     }
 }
