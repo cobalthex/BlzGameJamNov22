@@ -423,7 +423,6 @@ public class SnowTerrain : MonoBehaviour
             Reset();
             return;
         }
-#endif
 
         var snowBrushInput = System.MathF.Sign(Input.GetAxis("SnowBrush")); // unity mathf does not return 0 -> 0
         if (snowBrushInput == 0)
@@ -456,5 +455,6 @@ public class SnowTerrain : MonoBehaviour
          
             lastRelPos = surfacePos.Value;
         }
+#endif // DEBUG
     }
 }

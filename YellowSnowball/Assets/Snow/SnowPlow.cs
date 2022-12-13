@@ -36,7 +36,7 @@ public class SnowPlow : MonoBehaviour
             {
                 var emission = JetStream.emission;
                 // * 10k is a 'good enough' value
-                emission.rateOverTimeMultiplier = Mathf.Clamp(AverageMetersChangedLastPlow * 10000, 1, m_jetEmissionRate);
+                emission.rateOverTimeMultiplier = Mathf.Clamp(AverageMetersChangedLastPlow * 10000, 0, m_jetEmissionRate);
             }
         }
     }
