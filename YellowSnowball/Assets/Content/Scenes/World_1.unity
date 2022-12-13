@@ -312,6 +312,22 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 150218012894233424, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bcace8ef69e8304599c4a31b2a83a5a, type: 2}
+    - target: {fileID: 4044610286391530534, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bcace8ef69e8304599c4a31b2a83a5a, type: 2}
+    - target: {fileID: 4451522774936798171, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bcace8ef69e8304599c4a31b2a83a5a, type: 2}
+    - target: {fileID: 5202230388719329551, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bcace8ef69e8304599c4a31b2a83a5a, type: 2}
     - target: {fileID: 7009063549916202612, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
       propertyPath: PlayerID
       value: 1
@@ -320,6 +336,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8040326770419699291, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bcace8ef69e8304599c4a31b2a83a5a, type: 2}
     - target: {fileID: 8362289087498155767, guid: 2e305f4ed40644640a428c3710875fd2, type: 3}
       propertyPath: m_RootOrder
       value: 12
