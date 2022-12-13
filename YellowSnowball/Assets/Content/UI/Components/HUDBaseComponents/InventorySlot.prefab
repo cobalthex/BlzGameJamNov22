@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7908370713561758947
 RectTransform:
   m_ObjectHideFlags: 0
@@ -514,13 +514,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7116293862209133427}
+  - component: {fileID: 3964154833757987374}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7116293862209133427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -542,6 +543,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3964154833757987374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7116293862209133424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8908c97004a99ed4097b19c47e033779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_itemCountText: {fileID: 7116293861211008402}
+  m_itemIconImage: {fileID: 7116293862424646251}
+  m_itemType: 0
+  m_itemCost: 0
 --- !u!1 &7116293862424646249
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,6 +876,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2710238988334486083, guid: 6330a0fee75ded44cbc26170f3d94c6a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2710238989360895651, guid: 6330a0fee75ded44cbc26170f3d94c6a, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

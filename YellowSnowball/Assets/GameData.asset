@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bda2b398b9b6f84db819bd0e19fe40f, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  PlayerSpeedInSec: 1
+  PlayerSpeedNormal: 5
+  PlayerSpeedReduced: 2
   PlayerStartPositions:
   - {x: 4, y: 0}
   - {x: 3, y: 0}
@@ -20,14 +21,18 @@ MonoBehaviour:
   - ItemType: 0
     Cost: 400
     MaxCount: 2
-    ItemIcon: {fileID: 21300000, guid: f9161c6c9e06dc445ada3ee16d991f90, type: 3}
+    ItemIcon: {fileID: 21300000, guid: 26fd037531568a743bc8edd4c01fefdb, type: 3}
   - ItemType: 1
     Cost: 200
     MaxCount: 3
-    ItemIcon: {fileID: 21300000, guid: 3086d66a563317b40a20a20da2c64ac0, type: 3}
+    ItemIcon: {fileID: 21300000, guid: 99f2b280461354547a7feffbecc6bace, type: 3}
   PlayerStartMoney: 1000
   Keys:
     PreviousShopItem: 113
     NextShopItem: 101
     BuyShopItem: 306
     AccessShop: 304
+    ToggleBlowerDoor: 32
+    Item1Key: 49
+    Item2Key: 50
+    Item3Key: 51

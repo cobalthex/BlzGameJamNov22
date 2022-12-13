@@ -41,8 +41,10 @@ public class ShopManager : MonoBehaviour
         foreach(ShopItemData itemData in m_gameData.ShopItems)
         {
             if (itemData.ItemType == evt.ShopItemType)
-            playerData.Money -= itemData.Cost;
+                playerData.Money -= itemData.Cost;
         }
+
+        NetworkedGameManager.Instance.UIManager.UpdateOnItemEvent(evt.Player);
     }
 
     private void Update()
