@@ -72,7 +72,8 @@ public class NetworkedPlayerController : MonoBehaviour
         var direction = new Vector3(horizontalInput, 0, verticalInput);
 
         // Determine speed
-        MoveSpeed = Mathf.Lerp(m_gameData.PlayerSpeedNormal, m_gameData.PlayerSpeedReduced, SnowPlow.AverageMetersChangedLastPlow * 100);
+        const float snowAmountScalar = 50; // feels like a good value
+        MoveSpeed = Mathf.Lerp(m_gameData.PlayerSpeedNormal, m_gameData.PlayerSpeedReduced, SnowPlow.AverageMetersChangedLastPlow * snowAmountScalar);
 
         // Position
         transform.position += (direction * MoveSpeed * Time.deltaTime);

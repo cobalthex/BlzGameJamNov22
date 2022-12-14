@@ -493,6 +493,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Driveway (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 996259317013603037, guid: 5299cea4c531f2a408a414dce570b2b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1841200182330489650, guid: 5299cea4c531f2a408a414dce570b2b2, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -551,6 +555,10 @@ PrefabInstance:
     - target: {fileID: 996259317013603037, guid: 5299cea4c531f2a408a414dce570b2b2, type: 3}
       propertyPath: m_Name
       value: Driveway (0)
+      objectReference: {fileID: 0}
+    - target: {fileID: 996259317013603037, guid: 5299cea4c531f2a408a414dce570b2b2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1841200182330489650, guid: 5299cea4c531f2a408a414dce570b2b2, type: 3}
       propertyPath: m_RootOrder
